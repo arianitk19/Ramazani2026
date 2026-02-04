@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shpirtërore | Ramazani 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #fbbf24; --dark-bg: #020617; }
+        body { background: var(--dark-bg); color: #f8fafc; font-family: 'Space Grotesk', sans-serif; }
+        .vaktia-glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid rgba(251, 191, 36, 0.1); }
+        .filter-btn.active { background: var(--gold); color: black; font-weight: 800; }
+        #burger-menu { transition: all 0.6s cubic-bezier(0.85, 0, 0.15, 1); clip-path: circle(0% at 100% 0%); }
+        #burger-menu.active { clip-path: circle(150% at 100% 0%); }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 1.5rem; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .line { transition: all 0.4s ease; height: 2px; width: 24px; background-color: var(--gold); display: block; margin: 6px 0; }
+        .active-btn .line-1 { transform: translateY(8px) rotate(45deg); }
+        .active-btn .line-2 { opacity: 0; }
+        .active-btn .line-3 { transform: translateY(-8px) rotate(-45deg); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="min-h-screen pb-20">
+
+    <button onclick="toggleMenu()" id="menu-btn" class="fixed top-8 right-6 z-[100] p-4 vaktia-glass rounded-2xl border border-amber-500/10">
+        <span class="line line-1"></span>
+        <span class="line line-2"></span>
+        <span class="line line-3"></span>
+    </button>
+
+    <nav id="burger-menu" class="fixed inset-0 bg-slate-950 z-[90] flex flex-col items-center justify-center space-y-12">
+        <a href="index.html" class="text-3xl font-light hover:text-amber-500 transition-colors uppercase tracking-widest">Kreu</a>
+        <a href="spirit.html" onclick="toggleMenu()" class="text-5xl font-bold text-amber-500 italic">SPIRITI</a>
+        <a href="#" class="text-3xl font-light hover:text-amber-500 transition-colors uppercase tracking-widest">Cilësimet</a>
+    </nav>
+
+    <header class="pt-24 px-8 animate__animated animate__fadeIn">
+        <h1 class="text-5xl font-black tracking-tighter italic text-amber-500 uppercase leading-none">Ushqimi i<br><span class="text-white font-light">Shpirtit</span></h1>
+        <p class="text-gray-500 text-[10px] tracking-[0.5em] uppercase mt-4 border-l border-amber-500 pl-4">Ligjërata & Lutje 2026</p>
+    </header>
+
+    <main class="w-full max-w-4xl mx-auto px-6 mt-12 space-y-16">
+        
+        <section>
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xs font-bold text-amber-500 uppercase tracking-widest">Ligjërata: Rëndësia e Namazit</h2>
+                <span class="h-[1px] flex-1 bg-white/5 ml-4"></span>
+            </div>
+            
+            <div class="flex overflow-x-auto space-x-3 pb-6 no-scrollbar">
+                <button onclick="filterVideos('all')" class="filter-btn active whitespace-nowrap px-6 py-3 rounded-full border border-white/10 text-[10px] uppercase tracking-widest transition-all">Të Gjitha</button>
+                <button onclick="filterVideos('elvis')" class="filter-btn whitespace-nowrap px-6 py-3 rounded-full border border-white/10 text-[10px] uppercase tracking-widest transition-all">Elvis Naçi</button>
+                <button onclick="filterVideos('enis')" class="filter-btn whitespace-nowrap px-6 py-3 rounded-full border border-white/10 text-[10px] uppercase tracking-widest transition-all">Enis Rama</button>
+                <button onclick="filterVideos('ahmed')" class="filter-btn whitespace-nowrap px-6 py-3 rounded-full border border-white/10 text-[10px] uppercase tracking-widest transition-all">Ahmed Kalaja</button>
+            </div>
+
+            <div id="video-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="video-item elvis animate__animated animate__fadeIn"><div class="video-container vaktia-glass"><iframe src="https://www.youtube.com/embed/HRFyNwSj2LY"></iframe></div></div>
+                <div class="video-item enis animate__animated animate__fadeIn"><div class="video-container vaktia-glass"><iframe src="https://www.youtube.com/embed/6i-6WmjKZDM"></iframe></div></div>
+                <div class="video-item ahmed animate__animated animate__fadeIn"><div class="video-container vaktia-glass"><iframe src="https://www.youtube.com/embed/F4sBAaFSpzw"></iframe></div></div>
+                <div class="video-item elvis animate__animated animate__fadeIn"><div class="video-container vaktia-glass"><iframe src="https://www.youtube.com/embed/f3QrjjW2Uto"></iframe></div></div>
+                <div class="video-item enis animate__animated animate__fadeIn"><div class="video-container vaktia-glass"><iframe src="https://www.youtube.com/embed/bSB0rbMxBBg"></iframe></div></div>
+                <div class="video-item ahmed animate__animated animate__fadeIn"><div class="video-container vaktia-glass"><iframe src="https://www.youtube.com/embed/RYW3vLPnif8"></iframe></div></div>
+                <div class="video-item elvis animate__animated animate__fadeIn"><div class="video-container vaktia-glass"><iframe src="https://www.youtube.com/embed/aCo-hiCm34U"></iframe></div></div>
+            </div>
+        </section>
+
+        <section class="pb-10">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-xs font-bold text-amber-500 uppercase tracking-widest">Thesari i Lutjeve</h2>
+                <span class="h-[1px] flex-1 bg-white/5 ml-4"></span>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4 mb-10">
+                <button onclick="showPrayerGroup('iftar')" class="prayer-cat-btn vaktia-glass p-5 rounded-[2rem] text-[10px] font-bold uppercase tracking-[0.2em] transition-all">Iftari & Syfyri</button>
+                <button onclick="showPrayerGroup('teravite')" class="prayer-cat-btn vaktia-glass p-5 rounded-[2rem] text-[10px] font-bold uppercase tracking-[0.2em] transition-all">Teravitë</button>
+                <button onclick="showPrayerGroup('nata')" class="prayer-cat-btn vaktia-glass p-5 rounded-[2rem] text-[10px] font-bold uppercase tracking-[0.2em] transition-all">Namazi i Natës</button>
+                <button onclick="showPrayerGroup('pendim')" class="prayer-cat-btn vaktia-glass p-5 rounded-[2rem] text-[10px] font-bold uppercase tracking-[0.2em] transition-all">Pendimi</button>
+            </div>
+
+            <div id="prayer-display" class="space-y-6 min-h-[300px]">
+                <div class="vaktia-glass rounded-[3rem] p-16 text-center border-dashed border-white/10">
+                    <div class="w-16 h-16 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    </div>
+                    <p class="text-gray-500 uppercase text-[10px] tracking-[0.3em]">Zgjidhni një kategori për të hapur lutjet</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('burger-menu').classList.toggle('active');
+            document.getElementById('menu-btn').classList.toggle('active-btn');
+        }
+
+        function filterVideos(cat) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            document.querySelectorAll('.video-item').forEach(v => {
+                v.style.display = (cat === 'all' || v.classList.contains(cat)) ? 'block' : 'none';
+            });
+        }
+
+        const prayerDatabase = {
+            iftar: [
+                { or: "Allahumme leke sumtu we bike amentu we 'ala rrizkike eftartu.", sq: "O Allah, për Ty agjërova, Ty të besova dhe me rrizkun Tënd bëra iftar." },
+                { or: "Dhehebe ddham-eu webtelletil-uruku we thubetel-exhru inshaAllah.", sq: "U largua etja, u lagën venat dhe u sigurua shpërblimi me dëshirën e Allahut." },
+                { or: "Newejtu en esume gaden lillahi te'ala min shehri Ramadan.", sq: "Vendosa të agjëroj nesër për hir të Allahut të Madhëruar." }
+            ],
+            teravite: [
+                { or: "Subhane dhil-mulki wel-melekut. Subhane dhil-izzeti wel-adhometi.", sq: "I Pastër është Sunduesi i botës së dukshme dhe të padukshme." },
+                { or: "Allahumme inneke 'afuwun tuhibbul-'afwe fa'fu 'anna.", sq: "O Allah, Ti je Falës, e dëshiron faljen, andaj na fal ne." },
+                { or: "Subhanellahil-Adhim we bihamdihi.", sq: "I pastër është Allahu i Madhëruar dhe Atij i takon falënderimi." }
+            ],
+            nata: [
+                { or: "Rabbena atina fiddunja haseneten we fil-ahireti haseneten.", sq: "Zoti ynë, na jep të mira në këtë botë dhe në botën tjetër." },
+                { or: "Ja Mukallibel-kulub thabbit kalbi 'ala dinike.", sq: "O Rrotullues i zemrave, përforcoje zemrën time në fenë Tënde." },
+                { or: "Allahumme jessir we la tu'assir, Rabbi temmim bil-khajr.", sq: "O Allah, lehtëso e mos vështirëso, Zot përfundoje me mirësi." }
+            ],
+            pendim: [
+                { or: "Estaghfirullah-el-Adhim el-ledhi la ilahe il-la Hu.", sq: "Kërkoj falje te Allahu i Madhëruar, përveç të Cilit s'ka zot tjetër." },
+                { or: "Rabbi-ghfir li we tub 'aleje inneke Entet-Tewwabur-Rahim.", sq: "Zoti im më fal dhe ma prano pendimin, Ti je Pendimpranuesi." },
+                { or: "Allahumme maghfiretuke ewse'u min dhunubi.", sq: "O Allah, falja Jote është më e gjerë se mëkatet e mia." }
+            ]
+        };
+
+        function showPrayerGroup(category) {
+            const display = document.getElementById('prayer-display');
+            display.innerHTML = prayerDatabase[category].map((p, i) => `
+                <div class="vaktia-glass rounded-[2.5rem] p-8 animate__animated animate__fadeInUp" style="animation-delay: ${i*0.1}s">
+                    <p class="text-amber-500 font-bold italic text-lg mb-4 leading-tight">"${p.or}"</p>
+                    <div class="h-[1px] w-12 bg-amber-500/20 mb-4"></div>
+                    <p class="text-gray-400 text-sm leading-relaxed font-light">${p.sq}</p>
+                </div>
+            `).join('');
+            
+            document.querySelectorAll('.prayer-cat-btn').forEach(b => b.classList.remove('border-amber-500', 'bg-amber-500/10'));
+            event.target.classList.add('border-amber-500', 'bg-amber-500/10');
+        }
+    </script>
+</body>
+</html>

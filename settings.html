@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cilësimet | Ramazani 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #fbbf24; --dark-bg: #020617; }
+        body { background: var(--dark-bg); color: #f8fafc; font-family: 'Space Grotesk', sans-serif; }
+        .vaktia-glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(25px); border: 1px solid rgba(251, 191, 36, 0.1); }
+        
+        /* Toggle Switch Custom Styling */
+        .toggle-checkbox:checked + .toggle-label { background-color: var(--gold); }
+        .toggle-checkbox:checked + .toggle-label .toggle-dot { transform: translateX(100%); background-color: black; }
+
+        #burger-menu { transition: all 0.6s cubic-bezier(0.85, 0, 0.15, 1); clip-path: circle(0% at 100% 0%); }
+        #burger-menu.active { clip-path: circle(150% at 100% 0%); }
+        .line { transition: all 0.4s ease; height: 2px; width: 24px; background-color: var(--gold); display: block; margin: 6px 0; }
+        .active-btn .line-1 { transform: translateY(8px) rotate(45deg); }
+        .active-btn .line-2 { opacity: 0; }
+        .active-btn .line-3 { transform: translateY(-8px) rotate(-45deg); }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <button onclick="toggleMenu()" id="menu-btn" class="fixed top-8 right-6 z-[100] p-4 vaktia-glass rounded-2xl border border-amber-500/10">
+        <span class="line line-1"></span>
+        <span class="line line-2"></span>
+        <span class="line line-3"></span>
+    </button>
+
+    <nav id="burger-menu" class="fixed inset-0 bg-slate-950 z-[90] flex flex-col items-center justify-center space-y-12">
+        <a href="index.html" class="text-3xl font-light hover:text-amber-500 transition-colors uppercase tracking-widest">Kreu</a>
+        <a href="spirit.html" class="text-3xl font-light hover:text-amber-500 transition-colors uppercase tracking-widest">Spiriti</a>
+        <a href="settings.html" onclick="toggleMenu()" class="text-5xl font-bold text-amber-500 italic">CILËSIMET</a>
+    </nav>
+
+    <header class="pt-24 px-8 animate__animated animate__fadeIn">
+        <h1 class="text-5xl font-black tracking-tighter italic text-amber-500 uppercase leading-none">Paneli i<br><span class="text-white font-light">Kontrollit</span></h1>
+    </header>
+
+    <main class="w-full max-w-md mx-auto px-6 mt-12 space-y-8 pb-20">
+        
+        <section class="animate__animated animate__fadeInUp" style="animation-delay: 0.1s">
+            <h2 class="text-[10px] font-bold text-gray-500 uppercase tracking-[0.4em] mb-4 ml-2">Lokacioni Manual</h2>
+            <div class="vaktia-glass rounded-[2rem] p-6 space-y-4">
+                <p class="text-xs text-gray-400">Nëse nuk dëshironi GPS, zgjedhni qytetin tuaj:</p>
+                <select id="city-select" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-amber-500 outline-none appearance-none transition-all">
+                    <option value="ratkoc">Ratkoc (Vendlindja)</option>
+                    <option value="prishtine">Prishtinë</option>
+                    <option value="prizren">Prizren</option>
+                    <option value="peje">Pejë</option>
+                    <option value="gjakove">Gjakovë</option>
+                    <option value="mitrovice">Mitrovicë</option>
+                </select>
+                <button onclick="saveSettings()" class="w-full bg-amber-500 text-black font-black py-4 rounded-xl uppercase text-xs tracking-widest hover:scale-[1.02] transition-transform">Ruaj Ndryshimet</button>
+            </div>
+        </section>
+
+        <section class="animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
+            <h2 class="text-[10px] font-bold text-gray-500 uppercase tracking-[0.4em] mb-4 ml-2">Njoftimet (Smart)</h2>
+            <div class="vaktia-glass rounded-[2rem] p-4 space-y-2">
+                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl">
+                    <span class="text-sm font-medium">Kujtesa për Iftar</span>
+                    <div class="relative inline-block w-12 h-6 transition duration-200 ease-in-out rounded-full">
+                        <input type="checkbox" id="notif-iftar" class="hidden toggle-checkbox" checked>
+                        <label for="notif-iftar" class="toggle-label block h-6 rounded-full bg-white/10 cursor-pointer transition-all">
+                            <span class="toggle-dot absolute left-1 top-1 bg-gray-400 w-4 h-4 rounded-full transition-all"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl">
+                    <span class="text-sm font-medium">Kujtesa për Syfyr</span>
+                    <div class="relative inline-block w-12 h-6 transition duration-200 ease-in-out rounded-full">
+                        <input type="checkbox" id="notif-syfyr" class="hidden toggle-checkbox" checked>
+                        <label for="notif-syfyr" class="toggle-label block h-6 rounded-full bg-white/10 cursor-pointer transition-all">
+                            <span class="toggle-dot absolute left-1 top-1 bg-gray-400 w-4 h-4 rounded-full transition-all"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="animate__animated animate__fadeInUp" style="animation-delay: 0.3s">
+            <div class="vaktia-glass rounded-[2rem] p-8 text-center">
+                <p class="text-[10px] text-gray-500 uppercase tracking-widest">Versioni i Aplikacionit</p>
+                <p class="text-xl font-bold text-white mt-1">Vaktia 2.0 <span class="text-amber-500 italic">Pro</span></p>
+                <div class="mt-6 flex justify-center space-x-4">
+                    <div class="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.152-1.11-1.459-1.11-1.459-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12c0-5.523-4.477-10-10-10z"/></svg>
+                    </div>
+                    <div class="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.975.975 1.245 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.063 1.366-.333 2.633-1.308 3.608-.975.975-2.242 1.245-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.063-2.633-.333-3.608-1.308-.975-.975-1.245-2.242-1.308-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.332-2.633 1.308-3.608.975-.975 2.242-1.245 3.608-1.308 1.266-.058 1.646-.07 4.85-.07zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.355 2.618 6.778 6.98 6.977 1.28.057 1.688.072 4.948.072 3.259 0 3.668-.015 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('burger-menu').classList.toggle('active');
+            document.getElementById('menu-btn').classList.toggle('active-btn');
+        }
+
+        function saveSettings() {
+            const city = document.getElementById('city-select').value;
+            // Këtu kodi do të ruante të dhënat në LocalStorage në një projekt real
+            alert("Ndryshimet për " + city.toUpperCase() + " u ruajtën me sukses!");
+        }
+    </script>
+</body>
+</html>
