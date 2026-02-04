@@ -1,16 +1,52 @@
-const CACHE_NAME = 'vaktia-2026-v1';
+const CACHE_NAME = 'vaktia-2026-v2'; // Ndryshuar në v2 për të detyruar përditësimin
 const assets = [
   '/',
   '/index.html',
   '/ushqimishpirtit.html',
   '/settings.html',
+  '/manifest.json', // E rëndësishme të jetë në cache
   '/logo.svg'
 ];
 
+// Instalimi dhe Cache
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(assets)));
+  e.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      console.log('Duke ruajtur asetet në cache...');
+      return cache.addAll(assets);
+    })
+  );
 });
 
+// Aktivizimi dhe pastrimi i cache-it të vjetër
+self.addEventListener('activate', e => {
+  e.waitUntil(
+    caches.keys().then(keys => {
+      return Promise.all(
+        keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
+      );
+    })
+  );
+});
+
+// Strategjia e marrjes së të dhënave (Network First për API, Cache First për skedarët)
 self.addEventListener('fetch', e => {
-  e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
+  e.respondWith(
+    caches.match(e.request).then(res => {
+      return res || fetch(e.request);
+    })
+  );
+});
+
+// LOGJIKA PËR NJOFTIME (Notifications)
+self.addEventListener('push', e => {
+  const data = e.data.json();
+  const options = {
+    body: data.body,
+    icon: '/logo.svg', // Ikona që rregulluam
+    badge: '/logo.svg',
+    vibrate: [100, 50, 100],
+    data: { url: '/' }
+  };
+  e.waitUntil(self.registration.showNotification(data.title, options));
 });
