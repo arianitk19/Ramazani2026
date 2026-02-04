@@ -1,17 +1,24 @@
 {
-  "name": "Vaktia 2026",
   "short_name": "Vaktia",
-  "start_url": "/index.html",
-  "display": "standalone",
-  "display_override": ["fullscreen", "minimal-ui"],
-  "background_color": "#020617",
-  "theme_color": "#020617",
+  "name": "Vaktia Ramazani 2026",
   "icons": [
     {
       "src": "logo.svg",
       "sizes": "512x512",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "logo.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
     }
-  ]
+  ],
+  "start_url": "/index.html",
+  "background_color": "#020617",
+  "theme_color": "#020617",
+  "display": "standalone",
+  "scope": "/",
+  "orientation": "portrait"
 }
