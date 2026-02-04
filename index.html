@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="sq">
 <head>
-<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ramazani 2026 | Vaktia Digjitale</title>
+
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#020617">
 
@@ -14,23 +17,21 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Vaktia">
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ramazani 2026 | Vaktia Digjitale</title>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     
     <style>
-        /* ... stilet tua ... */
         :root { --gold: #fbbf24; --dark-bg: #020617; }
         body { background: var(--dark-bg); color: #f8fafc; font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
-        /* etj... */
-    </style>
+        
+        .vaktia-glass {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(251, 191, 36, 0.1);
+            box-shadow: inset 0 0 20px rgba(251, 191, 36, 0.02);
+        }
 
-<style>
-        /* Burger Menu Animation */
         #burger-menu { transition: all 0.6s cubic-bezier(0.85, 0, 0.15, 1); clip-path: circle(0% at 100% 0%); }
         #burger-menu.active { clip-path: circle(150% at 100% 0%); }
         
@@ -215,10 +216,34 @@
       });
     });
   }
+
+// Shtoje këtë brenda setTimeout te getUserLocation, pasi të kesh marrë pData
+const iftariTime = pData.data.timings.Maghrib; // format "18:05"
+
+// Funksioni që kontrollon çdo minutë nëse erdhi koha e Iftarit
+setInterval(() => {
+    const tani = new Date();
+    const oraAktuale = tani.getHours().toString().padStart(2, '0') + ":" + 
+                      tani.getMinutes().toString().padStart(2, '0');
+    
+    if (oraAktuale === iftariTime) {
+        if (Notification.permission === 'granted') {
+            navigator.serviceWorker.ready.then(registration => {
+                registration.showNotification("Koha e Iftarit!", {
+                    body: "Allahu ju pranoftë agjërimin. Mund të hapni iftarin.",
+                    icon: "logo.svg",
+                    vibrate: [200, 100, 200]
+                });
+            });
+        }
+    }
+}, 60000); // Kontrollon çdo 60 sekonda
+    
 </script>
     
 </body>
 </html>
+
 
 
 
