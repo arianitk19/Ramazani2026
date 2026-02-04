@@ -39,7 +39,7 @@
 
     <nav id="burger-menu" class="fixed inset-0 bg-slate-950 z-[90] flex flex-col items-center justify-center space-y-12">
         <a href="index.html" class="text-3xl font-light hover:text-amber-500 transition-colors uppercase tracking-widest">Kreu</a>
-        <a href="ushqimishpirtit.html" class="text-3xl font-light hover:text-amber-500 transition-colors uppercase tracking-widest">Spiriti</a>
+        <a href="ushqimishpirtit.html" class="text-3xl font-light hover:text-amber-500 transition-colors uppercase tracking-widest">Lutje</a>
         <a href="settings.html" onclick="toggleMenu()" class="text-5xl font-bold text-amber-500 italic">CILËSIMET</a>
     </nav>
 
@@ -52,14 +52,15 @@
         <section class="animate__animated animate__fadeInUp" style="animation-delay: 0.1s">
             <h2 class="text-[10px] font-bold text-gray-500 uppercase tracking-[0.4em] mb-4 ml-2">Lokacioni Manual</h2>
             <div class="vaktia-glass rounded-[2rem] p-6 space-y-4">
-                <p class="text-xs text-gray-400">Nëse nuk dëshironi GPS, zgjedhni qytetin tuaj:</p>
+                <p class="text-xs text-gray-400">Nëse nuk dëshironi te lejoni vendndodhjen aktuale tuaj, zgjedhni qytetin tuaj:</p>
                 <select id="city-select" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-amber-500 outline-none appearance-none transition-all">
-                    <option value="ratkoc">Ratkoc (Vendlindja)</option>
-                    <option value="prishtine">Prishtinë</option>
+                    <option value="prishtinë">Prishtin</option>
+                    <option value="mitrovica">Mitrovice</option>
+                    <option value="pejë">Pejë</option>
                     <option value="prizren">Prizren</option>
-                    <option value="peje">Pejë</option>
-                    <option value="gjakove">Gjakovë</option>
-                    <option value="mitrovice">Mitrovicë</option>
+                    <option value="ferizaj">Ferizaj</option>
+                    <option value="gjilan">Gjilan</option>
+                    <option value="gjilan">Gjakovë</option>
                 </select>
                 <button onclick="saveSettings()" class="w-full bg-amber-500 text-black font-black py-4 rounded-xl uppercase text-xs tracking-widest hover:scale-[1.02] transition-transform">Ruaj Ndryshimet</button>
             </div>
@@ -120,3 +121,4 @@
     </script>
 </body>
 </html>
+
