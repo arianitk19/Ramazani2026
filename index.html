@@ -178,5 +178,17 @@
             document.getElementById('seconds').innerText = Math.floor((diff % 60000) / 1000);
         }, 1000);
     </script>
+    
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('Service Worker u regjistrua!'))
+        .catch(err => console.log('Gabim në regjistrim:', err));
+    });
+  }
+</script>
+    
 </body>
 </html>
+
