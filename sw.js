@@ -1,10 +1,8 @@
-const CACHE_NAME = 'vaktia-v2-final'; // Duke ndryshuar këtë emër, telefoni pastron cache-in e vjetër
+const CACHE_NAME = 'vaktia-update-v10'; // Vendos një emër që nuk e ke përdorur kurrë
 const assets = [
   '/',
   '/index.html',
-  '/settings.html',
-  '/ushqimishpirtit.html',
-  '/icon-v1.svg', 
+  '/icon-v1.svg', // Shto emrin e ri këtu
   '/manifest.json'
 ];
 
