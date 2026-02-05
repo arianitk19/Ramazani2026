@@ -1,11 +1,9 @@
-const CACHE_NAME = 'vaktia-2026-v2'; // Ndryshuar në v2 për të detyruar përditësimin
+const CACHE_NAME = 'vaktia-update-v10'; // Vendos një emër që nuk e ke përdorur kurrë
 const assets = [
   '/',
   '/index.html',
-  '/ushqimishpirtit.html',
-  '/settings.html',
-  '/manifest.json', // E rëndësishme të jetë në cache
-  '/logo.svg'
+  '/icon-v1.svg', // Shto emrin e ri këtu
+  '/manifest.json'
 ];
 
 // Instalimi dhe Cache
