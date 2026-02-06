@@ -1,35 +1,50 @@
-const CACHE_NAME = 'vaktia-v2026-v1';
+const CACHE_NAME = 'vaktia-update-v10'; // Vendos një emër që nuk e ke përdorur kurrë
 const assets = [
-  '/',
-  '/index.html',
-  '/logo.svg',
-  'https://cdn.tailwindcss.com'
+  '/',
+  '/index.html',
+  '/icon-v1.svg', // Shto emrin e ri këtu
+  '/manifest.json'
 ];
 
-// Instalimi
+// Instalimi dhe Cache
 self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(assets))
-  );
+  e.waitUntil(
+    caches.open(CACHE_NAME).then(cache => {
+      console.log('Duke ruajtur asetet në cache...');
+      return cache.addAll(assets);
+    })
+  );
 });
 
-// Strategjia: Network First për API, Cache First për skedarët statikë
+// Aktivizimi dhe pastrimi i cache-it të vjetër
+self.addEventListener('activate', e => {
+  e.waitUntil(
+    caches.keys().then(keys => {
+      return Promise.all(
+        keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
+      );
+    })
+  );
+});
+
+// Strategjia e marrjes së të dhënave (Network First për API, Cache First për skedarët)
 self.addEventListener('fetch', e => {
-  if (e.request.url.includes('api.aladhan.com')) {
-    e.respondWith(
-      fetch(e.request).catch(() => caches.match(e.request))
-    );
-  } else {
-    e.respondWith(
-      caches.match(e.request).then(res => res || fetch(e.request))
-    );
-  }
+  e.respondWith(
+    caches.match(e.request).then(res => {
+      return res || fetch(e.request);
+    })
+  );
 });
 
-// Klikimi i njoftimit
-self.addEventListener('notificationclick', e => {
-  e.notification.close();
-  e.waitUntil(
-    clients.openWindow('/')
-  );
+// LOGJIKA PËR NJOFTIME (Notifications)
+self.addEventListener('push', e => {
+  const data = e.data.json();
+  const options = {
+    body: data.body,
+    icon: '/logo.svg', // Ikona që rregulluam
+    badge: '/logo.svg',
+    vibrate: [100, 50, 100],
+    data: { url: '/' }
+  };
+  e.waitUntil(self.registration.showNotification(data.title, options));
 });
