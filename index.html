@@ -102,38 +102,6 @@
 
 
 
-    <div id="intro-overlay" class="fixed inset-0 z-[200] bg-[#020617] flex items-center justify-center overflow-hidden">
-    <canvas id="starsCanvas" class="absolute inset-0 opacity-60"></canvas>
-    
-    <div class="absolute w-[600px] h-[600px] bg-amber-500/10 blur-[120px] rounded-full"></div>
-    
-    <div class="relative text-center z-10">
-        <div id="intro-logo" class="mb-8 opacity-0 transform scale-50">
-            <img src="https://img.icons8.com/fluency-systems-filled/512/D4AF37/crescent-moon.png" class="w-20 h-20 mx-auto drop-shadow-[0_0_15px_rgba(251,191,36,0.5)]" alt="Logo">
-        </div>
-
-        <div class="overflow-hidden h-14 mb-4">
-            <h2 id="intro-text" class="text-3xl font-light tracking-[0.6em] uppercase text-white opacity-0 translate-y-full">
-                Bismillah
-            </h2>
-        </div>
-        
-        <div class="w-40 h-[1px] bg-white/10 mx-auto relative">
-            <div id="intro-progress" class="absolute inset-y-0 left-0 bg-amber-500 w-0 transition-all duration-700"></div>
-        </div>
-    </div>
-</div>
-
-<style>
-    .intro-finish {
-        transform: translateY(-100%);
-        transition: transform 1.2s cubic-bezier(0.85, 0, 0.15, 1);
-    }
-    #intro-text { transition: all 0.6s ease; font-family: 'Space Grotesk', sans-serif; }
-</style>
-
-    
-
     <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
 
         <div class="absolute top-[-10%] right-[-10%] w-96 h-96 bg-emerald-600/10 blur-[120px] rounded-full"></div>
@@ -143,6 +111,42 @@
     </div>
 
 
+
+<div id="intro-overlay" class="fixed inset-0 z-[200] bg-[#020617] flex items-center justify-center overflow-hidden">
+    <div class="absolute w-[500px] h-[500px] bg-amber-500/5 rounded-full animate-pulse"></div>
+    
+    <div class="relative text-center">
+        <div id="intro-logo" class="mb-8 opacity-0 transform scale-50">
+            <svg class="w-24 h-24 mx-auto text-amber-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm1-13h-2v5H6v2h7V7z"/>
+                <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8z"/>
+            </svg>
+        </div>
+
+        <div class="overflow-hidden h-12 mb-2">
+            <h2 id="intro-text" class="text-2xl font-light tracking-[0.5em] uppercase text-white opacity-0 translate-y-full">
+                Bismillah
+            </h2>
+        </div>
+        
+        <div class="w-48 h-[1px] bg-white/10 mx-auto relative overflow-hidden">
+            <div id="intro-progress" class="absolute inset-y-0 left-0 bg-amber-500 w-0 transition-all duration-1000"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Shto këto stile te pjesa <style> ekzistuese */
+    .intro-finish {
+        transform: translateY(-100%);
+        transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+    }
+    
+    #intro-text {
+        transition: all 0.8s ease;
+    }
+</style>
+    
 
     <button onclick="toggleMenu()" id="menu-btn" class="fixed top-8 right-6 z-[100] p-4 vaktia-glass rounded-2xl border border-amber-500/10 active:scale-90 transition-transform">
 
@@ -510,87 +514,52 @@ setInterval(() => {
 
 }, 60000); // Kontrollon çdo 60 sekonda
 
-    // --- LOGJIKA E YJEVE (STARFIELD) ---
-const canvas = document.getElementById('starsCanvas');
-const ctx = canvas.getContext('2d');
-let stars = [];
-const numStars = 200;
 
-function initStars() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    stars = [];
-    for (let i = 0; i < numStars; i++) {
-        stars.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            size: Math.random() * 1.5,
-            speed: Math.random() * 0.5 + 0.2
-        });
-    }
-}
-
-function animateStars() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "white";
-    stars.forEach(star => {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fill();
-        star.y -= star.speed; // Lëvizja lart
-        if (star.y < 0) star.y = canvas.height;
-    });
-    requestAnimationFrame(animateStars);
-}
-
-window.addEventListener('resize', initStars);
-initStars();
-animateStars();
-
-// --- LOGJIKA E SEKUENCËS SË INTROS ---
-window.addEventListener('load', () => {
+window.addEventListener('DOMContentLoaded', () => {
     const intro = document.getElementById('intro-overlay');
     const introLogo = document.getElementById('intro-logo');
     const introText = document.getElementById('intro-text');
     const introProgress = document.getElementById('intro-progress');
 
-    // Selektojmë mesazhet
-    const sequences = ["Eselamu Alejkum", "Ramazani 2026", "Paqe dhe Bekim"];
-    let step = 0;
-
-    // Fillon procesi
+    // 1. Shfaq Logon dhe Progress Bar
     setTimeout(() => {
         introLogo.style.opacity = "1";
         introLogo.style.transform = "scale(1)";
+        introLogo.style.transition = "all 1s cubic-bezier(0.34, 1.56, 0.64, 1)";
+        introProgress.style.wWidth = "100%"; // Fillimi i mbushjes
         introProgress.style.width = "100%";
+    }, 300);
+
+    // 2. Ndryshimi i tekstit (Sekuenca)
+    const sequences = ["Mirësevini", "Ramazani 2026", "Vaktia Digjitale"];
+    let i = 0;
+
+    const textInterval = setInterval(() => {
+        introText.style.opacity = "1";
+        introText.style.transform = "translateY(0)";
+        introText.innerText = sequences[i];
         
-        const textCycle = setInterval(() => {
-            // Fsheh tekstin aktual
-            introText.style.opacity = "0";
-            introText.style.transform = "translateY(-20px)";
-            
-            setTimeout(() => {
-                if(step < sequences.length) {
-                    introText.innerText = sequences[step];
-                    introText.style.opacity = "1";
-                    introText.style.transform = "translateY(0)";
-                    step++;
-                } else {
-                    clearInterval(textCycle);
-                    finishIntro();
-                }
-            }, 400);
-        }, 1200);
-    }, 500);
+        if(i >= sequences.length - 1) {
+            clearInterval(textInterval);
+            finishIntro();
+        }
+        i++;
+    }, 800);
 
     function finishIntro() {
         setTimeout(() => {
             intro.classList.add('intro-finish');
+            // Lejo scrolling pas përfundimit
             document.body.style.overflow = "auto";
-            setTimeout(() => { intro.style.display = "none"; }, 1200);
-        }, 800);
+            
+            // Hiqe komplet nga DOM pas animacionit
+            setTimeout(() => {
+                intro.style.display = "none";
+            }, 800);
+        }, 1000);
     }
 });
+    
 
 </script>
 
