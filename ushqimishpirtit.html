@@ -55,59 +55,59 @@
                 <span class="h-[1px] flex-1 bg-white/5 ml-4"></span>
             </div>
             
-            <div class="flex overflow-x-auto space-x-3 pb-6 no-scrollbar">
-    <button onclick="filterVideos('all')" class="filter-btn active whitespace-nowrap px-6 py-3 rounded-full border border-amber-500/50 bg-amber-500/10 text-amber-500 text-[10px] uppercase tracking-widest transition-all">Të Gjitha</button>
-    <button onclick="filterVideos('elvis')" class="filter-btn whitespace-nowrap px-6 py-3 rounded-full border border-white/10 text-[10px] uppercase tracking-widest transition-all">Elvis Naçi</button>
-    <button onclick="filterVideos('enis')" class="filter-btn whitespace-nowrap px-6 py-3 rounded-full border border-white/10 text-[10px] uppercase tracking-widest transition-all">Enis Rama</button>
-    <button onclick="filterVideos('ahmed')" class="filter-btn whitespace-nowrap px-6 py-3 rounded-full border border-white/10 text-[10px] uppercase tracking-widest transition-all">Ahmed Kalaja</button>
+        <div class="flex overflow-x-auto space-x-3 pb-6 no-scrollbar">
+    <button onclick="filterVideos('all', this)" class="filter-btn active whitespace-nowrap px-6 py-3 rounded-full border border-amber-500/50 bg-amber-500/10 text-amber-500 text-[10px] uppercase tracking-widest transition-all">Të Gjitha</button>
+    <button onclick="filterVideos('elvis', this)" class="filter-btn whitespace-nowrap px-6 py-3 rounded-full border border-white/10 text-white text-[10px] uppercase tracking-widest transition-all">Elvis Naçi</button>
+    <button onclick="filterVideos('enis', this)" class="filter-btn whitespace-nowrap px-6 py-3 rounded-full border border-white/10 text-white text-[10px] uppercase tracking-widest transition-all">Enis Rama</button>
+    <button onclick="filterVideos('ahmed', this)" class="filter-btn whitespace-nowrap px-6 py-3 rounded-full border border-white/10 text-white text-[10px] uppercase tracking-widest transition-all">Ahmed Kalaja</button>
 </div>
 
 <div id="video-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div class="video-item elvis animate__animated animate__fadeIn">
         <div class="video-container vaktia-glass rounded-3xl overflow-hidden aspect-video">
-            <iframe class="w-full h-full" src="https://www.youtube.com/watch?v=DXG-XxBTN-o" frameborder="0" allowfullscreen></iframe>
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/DXG-XxBTN-o" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
     <div class="video-item elvis animate__animated animate__fadeIn">
         <div class="video-container vaktia-glass rounded-3xl overflow-hidden aspect-video">
-            <iframe class="w-full h-full" src="https://www.youtube.com/watch?v=sFunCIfenmk" frameborder="0" allowfullscreen></iframe>
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/sFunCIfenmk" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
     <div class="video-item elvis animate__animated animate__fadeIn">
         <div class="video-container vaktia-glass rounded-3xl overflow-hidden aspect-video">
-            <iframe class="w-full h-full" src="https://www.youtube.com/watch?v=eiEOsCt6c1Q" frameborder="0" allowfullscreen></iframe>
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/eiEOsCt6c1Q" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
     <div class="video-item elvis animate__animated animate__fadeIn">
         <div class="video-container vaktia-glass rounded-3xl overflow-hidden aspect-video">
-            <iframe class="w-full h-full" src="https://www.youtube.com/watch?v=94d-ueo51cc" frameborder="0" allowfullscreen></iframe>
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/94d-ueo51cc" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
 
     <div class="video-item enis animate__animated animate__fadeIn">
         <div class="video-container vaktia-glass rounded-3xl overflow-hidden aspect-video">
-            <iframe class="w-full h-full" src="https://www.youtube.com/watch?v=Jf1qmYV4OVQ" frameborder="0" allowfullscreen></iframe>
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/Jf1qmYV4OVQ" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
     <div class="video-item enis animate__animated animate__fadeIn">
         <div class="video-container vaktia-glass rounded-3xl overflow-hidden aspect-video">
-            <iframe class="w-full h-full" src="https://www.youtube.com/watch?v=hm72WO7TrTg" frameborder="0" allowfullscreen></iframe>
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/hm72WO7TrTg" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
     <div class="video-item enis animate__animated animate__fadeIn">
         <div class="video-container vaktia-glass rounded-3xl overflow-hidden aspect-video">
-            <iframe class="w-full h-full" src="https://www.youtube.com/watch?v=D9yWx4X1Cjg" frameborder="0" allowfullscreen></iframe>
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/D9yWx4X1Cjg" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
     <div class="video-item enis animate__animated animate__fadeIn">
         <div class="video-container vaktia-glass rounded-3xl overflow-hidden aspect-video">
-            <iframe class="w-full h-full" src="https://www.youtube.com/watch?v=KjjfIh5Sh5E&t=21s" frameborder="0" allowfullscreen></iframe>
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/KjjfIh5Sh5E" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
 
     <div class="video-item ahmed animate__animated animate__fadeIn">
         <div class="video-container vaktia-glass rounded-3xl overflow-hidden aspect-video">
-            <iframe class="w-full h-full" src="https://www.youtube.com/watch?v=LIQY-ybiPPo" frameborder="0" allowfullscreen></iframe>
+            <iframe class="w-full h-full" src="https://www.youtube.com/embed/LIQY-ybiPPo" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
     <div class="video-item ahmed animate__animated animate__fadeIn">
@@ -204,41 +204,38 @@
         }
 
 
-
-function filterVideos(category) {
-    // 1. Aktivizo butonin e duhur vizualisht
+function filterVideos(category, btn) {
+    // 1. Ndrysho dizajnin e butonave
     const buttons = document.querySelectorAll('.filter-btn');
-    buttons.forEach(btn => {
-        btn.classList.remove('active', 'border-amber-500/50', 'bg-amber-500/10', 'text-amber-500');
-        btn.classList.add('border-white/10', 'text-white');
+    buttons.forEach(b => {
+        b.classList.remove('active', 'border-amber-500/50', 'bg-amber-500/10', 'text-amber-500');
+        b.classList.add('border-white/10', 'text-white');
     });
-
-    // Gjej butonin që sapo u klikua (përmes event-it ose kategorisë)
-    const activeBtn = event.currentTarget;
-    activeBtn.classList.add('active', 'border-amber-500/50', 'bg-amber-500/10', 'text-amber-500');
+    
+    // Aktivo butonin e klikuar
+    btn.classList.add('active', 'border-amber-500/50', 'bg-amber-500/10', 'text-amber-500');
+    btn.classList.remove('border-white/10', 'text-white');
 
     // 2. Filtro videot
-    const videos = document.querySelectorAll('.video-item');
-    
-    videos.forEach(video => {
-        // Shfaq të gjitha ose vetëm ato që përputhen me klasën
-        if (category === 'all' || video.classList.contains(category)) {
-            video.style.display = 'block';
-            video.classList.add('animate__fadeIn');
+    const items = document.querySelectorAll('.video-item');
+    items.forEach(item => {
+        if (category === 'all' || item.classList.contains(category)) {
+            item.style.display = 'block';
+            item.classList.add('animate__fadeIn');
         } else {
-            video.style.display = 'none';
-            video.classList.remove('animate__fadeIn');
+            item.style.display = 'none';
         }
     });
 
-    // Haptic feedback nëse është në mobil
+    // Feedback haptik (vibrim i lehtë)
     if ("vibrate" in navigator) navigator.vibrate(10);
 }
-        
+
         
     </script>
 </body>
 </html>
+
 
 
 
