@@ -235,7 +235,9 @@
         </section>
 
 
-<section class="animate__animated animate__fadeInUp" style="animation-delay: 0.5s">
+
+
+        <section class="animate__animated animate__fadeInUp" style="animation-delay: 0.5s">
     <button onclick="openQuranModal()" class="w-full vaktia-glass rounded-[2.5rem] p-5 border border-white/5 flex items-center justify-between group active:scale-95 transition-all shadow-lg shadow-amber-500/5">
         <div class="flex items-center gap-4">
             <div class="h-12 w-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500 group-hover:bg-amber-500 group-hover:text-black transition-all duration-500">
@@ -243,7 +245,7 @@
             </div>
             <div class="text-left">
                 <p class="text-[10px] text-amber-500 font-bold uppercase tracking-[0.2em]">Libri i Shenjtë</p>
-                <p class="text-sm text-white font-medium">Lexo Kuranin & Dëgjo</p>
+                <p class="text-sm text-white font-medium">Kuran për Ramazan</p>
             </div>
         </div>
         <div class="h-8 w-8 rounded-full bg-white/5 flex items-center justify-center">
@@ -272,17 +274,17 @@
 
         <div class="p-4 border-b border-white/5 flex gap-3 overflow-x-auto no-scrollbar bg-black/40">
             <button onclick="loadSurah(1, 'El-Fatiha')" class="flex-none px-6 py-3 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[10px] font-black uppercase tracking-widest hover:bg-amber-500 hover:text-black transition-all">Fatiha</button>
-            <button onclick="loadSurah(2, 'El-Bekare')" class="flex-none px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-black uppercase tracking-widest hover:border-amber-500/50 transition-all">Bekare</button>
+            <button onclick="loadSurah(2, 'El-Bekare')" class="flex-none px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-black uppercase tracking-widest hover:border-amber-500/50 transition-all">Agjërimi (2:183)</button>
+            <button onclick="loadSurah(97, 'El-Kadr')" class="flex-none px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-black uppercase tracking-widest hover:border-amber-500/50 transition-all">Nata e Kadrit</button>
             <button onclick="loadSurah(36, 'Jasin')" class="flex-none px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-black uppercase tracking-widest hover:border-amber-500/50 transition-all">Jasin</button>
-            <button onclick="loadSurah(67, 'El-Mulk')" class="flex-none px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-black uppercase tracking-widest hover:border-amber-500/50 transition-all">Mulk</button>
-            <button onclick="loadSurah(18, 'El-Kehf')" class="flex-none px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-black uppercase tracking-widest hover:border-amber-500/50 transition-all">Kehf</button>
             <button onclick="loadSurah(55, 'Er-Rrahman')" class="flex-none px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-black uppercase tracking-widest hover:border-amber-500/50 transition-all">Rrahman</button>
+            <button onclick="loadSurah(112, 'El-Ihlas')" class="flex-none px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-black uppercase tracking-widest hover:border-amber-500/50 transition-all">Ihlas</button>
         </div>
 
         <div id="surah-content" class="flex-1 overflow-y-auto p-6 space-y-6 scroll-smooth no-scrollbar">
             <div class="text-center py-32 opacity-20">
                 <svg class="w-16 h-16 mx-auto mb-4 text-amber-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
-                <p class="text-[10px] uppercase tracking-[0.5em] text-white font-bold">Zgjidhni një sure për lexim</p>
+                <p class="text-[10px] uppercase tracking-[0.5em] text-white font-bold">Leximi i Kuranit në Ramazan</p>
             </div>
         </div>
 
@@ -296,8 +298,6 @@
         </div>
     </div>
 </div>
-
-
 
 
 
@@ -521,35 +521,30 @@
     }, 60000);
 
 
-// --- LOGJIKA E KURANIT ---
+// --- LOGJIKA E KURANIT RAMAZAN ---
 
-// Funksioni për hapjen e dritares (Modal)
 function openQuranModal() {
     const modal = document.getElementById('quran-modal');
     modal.classList.remove('hidden');
     modal.classList.add('flex');
-    document.body.style.overflow = 'hidden'; // Bllokon lëvizjen e faqes mbrapa
+    document.body.style.overflow = 'hidden';
 }
 
-// Funksioni për mbylljen e dritares
 function closeQuranModal() {
     const modal = document.getElementById('quran-modal');
     const audio = document.getElementById('quran-audio');
-    
     modal.classList.add('hidden');
     modal.classList.remove('flex');
-    document.body.style.overflow = 'auto'; // Kthen lëvizjen e faqes
-    audio.pause(); // Ndalon muzikën kur mbyll dritaren
+    document.body.style.overflow = 'auto';
+    audio.pause();
 }
 
-// Funksioni kryesor për ngarkimin e Sures (Tekst + Përkthim + Audio)
 async function loadSurah(id, name) {
     const content = document.getElementById('surah-content');
     const title = document.getElementById('surah-title');
     const audioContainer = document.getElementById('audio-container');
     const audioElement = document.getElementById('quran-audio');
 
-    // Vizualizimi i ngarkimit
     title.innerText = `Duke hapur: ${name}...`;
     content.innerHTML = `
         <div class="flex flex-col items-center justify-center py-24">
@@ -562,7 +557,6 @@ async function loadSurah(id, name) {
     `;
 
     try {
-        // Fetch paralel për shpejtësi maksimale
         const [arRes, sqRes] = await Promise.all([
             fetch(`https://api.alquran.cloud/v1/surah/${id}`),
             fetch(`https://api.alquran.cloud/v1/surah/${id}/sq.ahmeti`)
@@ -574,49 +568,29 @@ async function loadSurah(id, name) {
         title.innerText = `SURETU ${name.toUpperCase()}`;
         content.innerHTML = ""; 
 
-        // Ndërtimi i ajetit me stilin Glassmorphism
         arData.data.ayahs.forEach((ayah, index) => {
             const sqText = sqData.data.ayahs[index].text;
-            
             content.innerHTML += `
                 <div class="vaktia-glass rounded-[2.5rem] p-8 mb-6 border border-white/5 animate__animated animate__fadeInUp">
-                    <p class="text-right text-3xl leading-[4.5rem] font-serif text-white mb-8 drop-shadow-2xl" dir="rtl">
-                        ${ayah.text}
-                    </p>
-                    
+                    <p class="text-right text-3xl leading-[4.5rem] font-serif text-white mb-8" dir="rtl">${ayah.text}</p>
                     <div class="flex items-center gap-6 mb-8 opacity-20">
-                        <div class="h-[0.5px] flex-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent"></div>
-                        <div class="h-2 w-2 rounded-full bg-amber-500 rotate-45"></div>
-                        <span class="text-amber-500 text-[10px] font-black tracking-tighter">${ayah.numberInSurah}</span>
-                        <div class="h-2 w-2 rounded-full bg-amber-500 rotate-45"></div>
-                        <div class="h-[0.5px] flex-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent"></div>
+                        <div class="h-[0.5px] flex-1 bg-amber-500"></div>
+                        <span class="text-amber-500 text-[10px] font-black">${ayah.numberInSurah}</span>
+                        <div class="h-[0.5px] flex-1 bg-amber-500"></div>
                     </div>
-
-                    <p class="text-[14px] text-gray-300 font-light leading-relaxed tracking-wide italic text-center sm:text-left">
-                        ${sqText}
-                    </p>
+                    <p class="text-[14px] text-gray-300 font-light leading-relaxed italic text-center sm:text-left">${sqText}</p>
                 </div>
             `;
         });
 
-        // Kontrolli i Audios
         audioElement.src = `https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/${id}.mp3`;
         audioContainer.classList.remove('hidden');
-        audioContainer.classList.add('animate__slideInUp');
-        
-        // Auto-scroll në fillim me efekt smooth
         content.scrollTo({ top: 0, behavior: 'smooth' });
 
     } catch (error) {
-        content.innerHTML = `
-            <div class="text-center py-20 bg-red-500/5 rounded-[3rem] border border-red-500/10 mx-4">
-                <p class="text-red-500 text-[10px] font-black uppercase tracking-widest">Lidhja dështoi</p>
-                <p class="text-gray-500 text-[10px] mt-2 italic px-8">Ju lutem provoni përsëri pas pak.</p>
-            </div>
-        `;
+        content.innerHTML = `<p class="text-center text-red-500 text-xs py-20 uppercase font-black tracking-widest">Gabim në lidhje. Provoni përsëri.</p>`;
     }
 }
-
 
 
 
@@ -696,6 +670,7 @@ function closeInfoModal() {
 </body>
 
 </html>
+
 
 
 
