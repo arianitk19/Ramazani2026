@@ -235,40 +235,67 @@
         </section>
 
 
-
-<button onclick="openQuranModal()" class="w-full vaktia-glass p-5 rounded-[2.5rem] flex items-center justify-between">
-    <span>Lexo Kuranin</span>
+<section class="animate__animated animate__fadeInUp" style="animation-delay: 0.5s">
+    <button onclick="openQuranModal()" class="w-full vaktia-glass rounded-[2.5rem] p-5 border border-white/5 flex items-center justify-between group active:scale-95 transition-all shadow-lg shadow-amber-500/5">
+        <div class="flex items-center gap-4">
+            <div class="h-12 w-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500 group-hover:bg-amber-500 group-hover:text-black transition-all duration-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+            </div>
+            <div class="text-left">
+                <p class="text-[10px] text-amber-500 font-bold uppercase tracking-[0.2em]">Libri i Shenjtë</p>
+                <p class="text-sm text-white font-medium">Lexo Kuranin & Dëgjo</p>
+            </div>
+        </div>
+        <div class="h-8 w-8 rounded-full bg-white/5 flex items-center justify-center">
+            <svg class="w-4 h-4 text-gray-500 group-hover:text-amber-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </div>
     </button>
+</section>
+
+<div id="quran-modal" class="fixed inset-0 z-[100] hidden flex items-end sm:items-center justify-center p-0 sm:p-6 transition-all duration-500">
+    <div class="absolute inset-0 bg-black/90 backdrop-blur-xl" onclick="closeQuranModal()"></div>
+    
+    <div class="relative w-full max-w-2xl bg-[#020617] h-[92vh] sm:h-[85vh] rounded-t-[3rem] sm:rounded-[3rem] border-t border-white/10 overflow-hidden flex flex-col animate__animated animate__slideInUp animate__faster">
         
-<div id="quran-modal" class="fixed inset-0 z-[100] hidden flex items-end sm:items-center justify-center p-0 sm:p-6">
-        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeQuranModal()"></div>
-        <div class="relative w-full max-w-2xl bg-[#0a0a0a] h-[90vh] sm:h-[80vh] rounded-t-[2.5rem] sm:rounded-[2.5rem] border-t sm:border border-white/10 overflow-hidden flex flex-col animate__animated animate__slideInUp animate__faster">
-            <div class="p-6 border-b border-white/5 bg-white/5 flex justify-between items-center">
+        <div class="p-6 border-b border-white/5 bg-white/[0.02] flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-1 h-8 bg-amber-500 rounded-full"></div>
                 <div>
-                    <h3 class="text-white font-bold tracking-[0.2em] uppercase text-xs">Kurani i Shenjtë</h3>
-                    <p class="text-[9px] text-amber-500 uppercase mt-1 tracking-widest" id="surah-title">Zgjidhni Suren</p>
-                </div>
-                <button onclick="closeQuranModal()" class="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            <button onclick="loadSurah(1, 'El-Fatiha')" class="...">El-Fatiha</button>
-<button onclick="loadSurah(2, 'El-Bekare')" class="...">El-Bekare</button>
-<button onclick="loadSurah(36, 'Jasin')" class="...">Jasin</button>
-<button onclick="loadSurah(67, 'El-Mulk')" class="...">El-Mulk</button>
-<button onclick="loadSurah(18, 'El-Kehf')" class="...">El-Kehf</button>
-<button onclick="loadSurah(55, 'Er-Rrahman')" class="...">Er-Rrahman</button>
-            <div id="surah-content" class="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar scroll-smooth">
-                <div class="text-center py-20">
-                    <p class="text-gray-500 text-xs italic uppercase tracking-widest">Zgjidhni një sure për të filluar leximin...</p>
+                    <h3 class="text-white font-bold tracking-[0.2em] uppercase text-[10px]">Al-Quran Al-Kareem</h3>
+                    <p class="text-[11px] text-amber-500 uppercase mt-0.5 font-black tracking-widest" id="surah-title">Zgjidhni Suren</p>
                 </div>
             </div>
-            <div id="audio-container" class="hidden p-4 bg-white/5 border-t border-white/10 backdrop-blur-xl">
-                <audio id="quran-audio" controls class="w-full h-8 filter invert opacity-70"></audio>
-                <p class="text-[8px] text-center text-gray-500 mt-2 uppercase tracking-[0.2em]">Recitimi: Mishary Rashid Alafasy</p>
+            <button onclick="closeQuranModal()" class="h-10 w-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white transition-all active:scale-90">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <div class="p-4 border-b border-white/5 flex gap-3 overflow-x-auto no-scrollbar bg-black/40">
+            <button onclick="loadSurah(1, 'El-Fatiha')" class="flex-none px-6 py-3 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[10px] font-black uppercase tracking-widest hover:bg-amber-500 hover:text-black transition-all">Fatiha</button>
+            <button onclick="loadSurah(2, 'El-Bekare')" class="flex-none px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-black uppercase tracking-widest hover:border-amber-500/50 transition-all">Bekare</button>
+            <button onclick="loadSurah(36, 'Jasin')" class="flex-none px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-black uppercase tracking-widest hover:border-amber-500/50 transition-all">Jasin</button>
+            <button onclick="loadSurah(67, 'El-Mulk')" class="flex-none px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-black uppercase tracking-widest hover:border-amber-500/50 transition-all">Mulk</button>
+            <button onclick="loadSurah(18, 'El-Kehf')" class="flex-none px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-black uppercase tracking-widest hover:border-amber-500/50 transition-all">Kehf</button>
+            <button onclick="loadSurah(55, 'Er-Rrahman')" class="flex-none px-6 py-3 rounded-2xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-black uppercase tracking-widest hover:border-amber-500/50 transition-all">Rrahman</button>
+        </div>
+
+        <div id="surah-content" class="flex-1 overflow-y-auto p-6 space-y-6 scroll-smooth no-scrollbar">
+            <div class="text-center py-32 opacity-20">
+                <svg class="w-16 h-16 mx-auto mb-4 text-amber-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+                <p class="text-[10px] uppercase tracking-[0.5em] text-white font-bold">Zgjidhni një sure për lexim</p>
+            </div>
+        </div>
+
+        <div id="audio-container" class="hidden p-6 bg-slate-950/90 border-t border-white/10 backdrop-blur-3xl">
+            <div class="max-w-md mx-auto">
+                <audio id="quran-audio" controls class="w-full h-10 filter invert brightness-200 opacity-60 hover:opacity-100 transition-opacity"></audio>
+                <div class="flex justify-center mt-3">
+                    <span class="text-[8px] text-amber-500/60 font-black uppercase tracking-[0.4em]">Recitimi: Mishary Rashid Alafasy</span>
+                </div>
             </div>
         </div>
     </div>
+</div>
 
         
 
@@ -423,26 +450,48 @@
     }, 60000);
 
 
+// --- LOGJIKA E KURANIT ---
 
-// --- LOGJIKA E KURANIT (TEKST + PËRKTHIM + AUDIO) ---
+// Funksioni për hapjen e dritares (Modal)
+function openQuranModal() {
+    const modal = document.getElementById('quran-modal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden'; // Bllokon lëvizjen e faqes mbrapa
+}
 
+// Funksioni për mbylljen e dritares
+function closeQuranModal() {
+    const modal = document.getElementById('quran-modal');
+    const audio = document.getElementById('quran-audio');
+    
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = 'auto'; // Kthen lëvizjen e faqes
+    audio.pause(); // Ndalon muzikën kur mbyll dritaren
+}
+
+// Funksioni kryesor për ngarkimin e Sures (Tekst + Përkthim + Audio)
 async function loadSurah(id, name) {
     const content = document.getElementById('surah-content');
     const title = document.getElementById('surah-title');
     const audioContainer = document.getElementById('audio-container');
     const audioElement = document.getElementById('quran-audio');
 
-    // Efekti i ngarkimit (Consistent me stilin tënd)
+    // Vizualizimi i ngarkimit
     title.innerText = `Duke hapur: ${name}...`;
     content.innerHTML = `
-        <div class="flex flex-col items-center justify-center py-20 animate-pulse">
-            <div class="h-12 w-12 border-t-2 border-amber-500 rounded-full animate-spin mb-4"></div>
-            <p class="text-[10px] text-amber-500 uppercase tracking-[0.4em]">Bismillah...</p>
+        <div class="flex flex-col items-center justify-center py-24">
+            <div class="relative">
+                <div class="h-12 w-12 border-2 border-amber-500/20 rounded-full"></div>
+                <div class="absolute top-0 h-12 w-12 border-2 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+            <p class="text-[10px] text-amber-500 uppercase tracking-[0.4em] mt-6 font-bold animate-pulse">Bismillah...</p>
         </div>
     `;
 
     try {
-        // Marrim dy API paralelisht: Arabisht dhe Shqip
+        // Fetch paralel për shpejtësi maksimale
         const [arRes, sqRes] = await Promise.all([
             fetch(`https://api.alquran.cloud/v1/surah/${id}`),
             fetch(`https://api.alquran.cloud/v1/surah/${id}/sq.ahmeti`)
@@ -452,44 +501,46 @@ async function loadSurah(id, name) {
         const sqData = await sqRes.json();
         
         title.innerText = `SURETU ${name.toUpperCase()}`;
-        content.innerHTML = ""; // Pastrojmë loader-in
+        content.innerHTML = ""; 
 
-        // Ndërtimi i ajetit me stilin tënd
+        // Ndërtimi i ajetit me stilin Glassmorphism
         arData.data.ayahs.forEach((ayah, index) => {
             const sqText = sqData.data.ayahs[index].text;
             
             content.innerHTML += `
-                <div class="vaktia-glass rounded-[2rem] p-6 mb-6 border border-white/5 animate__animated animate__fadeInUp">
-                    <p class="text-right text-3xl leading-[3.5rem] font-serif text-white mb-6 drop-shadow-md" dir="rtl">
+                <div class="vaktia-glass rounded-[2.5rem] p-8 mb-6 border border-white/5 animate__animated animate__fadeInUp">
+                    <p class="text-right text-3xl leading-[4.5rem] font-serif text-white mb-8 drop-shadow-2xl" dir="rtl">
                         ${ayah.text}
                     </p>
                     
-                    <div class="flex items-center gap-4 mb-6 opacity-20">
-                        <div class="h-[1px] flex-1 bg-amber-500"></div>
-                        <span class="text-amber-500 text-[8px] tracking-widest font-black">${ayah.numberInSurah}</span>
-                        <div class="h-[1px] flex-1 bg-amber-500"></div>
+                    <div class="flex items-center gap-6 mb-8 opacity-20">
+                        <div class="h-[0.5px] flex-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent"></div>
+                        <div class="h-2 w-2 rounded-full bg-amber-500 rotate-45"></div>
+                        <span class="text-amber-500 text-[10px] font-black tracking-tighter">${ayah.numberInSurah}</span>
+                        <div class="h-2 w-2 rounded-full bg-amber-500 rotate-45"></div>
+                        <div class="h-[0.5px] flex-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent"></div>
                     </div>
 
-                    <p class="text-sm text-gray-300 font-light leading-relaxed tracking-wide italic">
+                    <p class="text-[14px] text-gray-300 font-light leading-relaxed tracking-wide italic text-center sm:text-left">
                         ${sqText}
                     </p>
                 </div>
             `;
         });
 
-        // Kontrolli i Audios (Mishary Rashid Alafasy)
+        // Kontrolli i Audios
         audioElement.src = `https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/${id}.mp3`;
         audioContainer.classList.remove('hidden');
-        audioContainer.classList.add('animate__animated', 'animate__slideInUp');
+        audioContainer.classList.add('animate__slideInUp');
         
-        // Scroll në fillim automatikisht
+        // Auto-scroll në fillim me efekt smooth
         content.scrollTo({ top: 0, behavior: 'smooth' });
 
     } catch (error) {
         content.innerHTML = `
-            <div class="text-center py-20 border border-red-500/20 rounded-[2rem] bg-red-500/5">
-                <p class="text-amber-500 text-xs font-bold uppercase tracking-widest">Lidhja dështoi</p>
-                <p class="text-gray-500 text-[10px] mt-2 italic px-10">API nuk po përgjigjet. Kontrolloni internetin tuaj.</p>
+            <div class="text-center py-20 bg-red-500/5 rounded-[3rem] border border-red-500/10 mx-4">
+                <p class="text-red-500 text-[10px] font-black uppercase tracking-widest">Lidhja dështoi</p>
+                <p class="text-gray-500 text-[10px] mt-2 italic px-8">Ju lutem provoni përsëri pas pak.</p>
             </div>
         `;
     }
@@ -501,6 +552,7 @@ async function loadSurah(id, name) {
 </body>
 
 </html>
+
 
 
 
