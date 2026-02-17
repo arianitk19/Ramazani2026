@@ -25,7 +25,22 @@
         .active-btn .line-1 { transform: translateY(8px) rotate(45deg); }
         .active-btn .line-2 { opacity: 0; }
         .active-btn .line-3 { transform: translateY(-8px) rotate(-45deg); }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar::-webkit-scrollbar { display: none; } 
+
+
+.active-koha {
+    background: var(--gold) !important;
+    color: black !important;
+    font-weight: 800;
+    box-shadow: 0 10px 20px -10px rgba(251, 191, 36, 0.5);
+}
+.koha-btn {
+    background: rgba(255, 255, 255, 0.03);
+    color: #94a3b8;
+}
+        
+        
+        
     </style>
 </head>
 <body class="min-h-screen pb-20">
@@ -128,6 +143,33 @@
 </div>
         </section>
 
+
+
+
+<section class="animate__animated animate__fadeIn">
+    <div class="flex items-center justify-between mb-8">
+        <h2 class="text-xs font-bold text-amber-500 uppercase tracking-widest">Dhikri sipas Kohëve</h2>
+        <span class="h-[1px] flex-1 bg-white/5 ml-4"></span>
+    </div>
+
+    <div class="flex overflow-x-auto space-x-2 pb-4 no-scrollbar">
+        <button onclick="showKoha('sabahu', this)" class="koha-btn active-koha whitespace-nowrap px-6 py-3 rounded-2xl border border-white/5 text-[10px] uppercase tracking-tighter transition-all">Sabahu</button>
+        <button onclick="showKoha('dreka', this)" class="koha-btn whitespace-nowrap px-6 py-3 rounded-2xl border border-white/5 text-[10px] uppercase tracking-tighter transition-all">Dreka</button>
+        <button onclick="showKoha('ikindia', this)" class="koha-btn whitespace-nowrap px-6 py-3 rounded-2xl border border-white/5 text-[10px] uppercase tracking-tighter transition-all">Ikindia</button>
+        <button onclick="showKoha('akshami', this)" class="koha-btn whitespace-nowrap px-6 py-3 rounded-2xl border border-white/5 text-[10px] uppercase tracking-tighter transition-all">Akshami (Iftari)</button>
+        <button onclick="showKoha('jacia', this)" class="koha-btn whitespace-nowrap px-6 py-3 rounded-2xl border border-white/5 text-[10px] uppercase tracking-tighter transition-all">Jacia</button>
+    </div>
+
+    <div id="koha-display" class="vaktia-glass rounded-[2.5rem] p-8 min-h-[250px] border border-amber-500/5">
+        </div>
+</section>
+
+
+
+
+
+
+        
         <section class="pb-10">
             <div class="flex items-center justify-between mb-8">
                 <h2 class="text-xs font-bold text-amber-500 uppercase tracking-widest">Thesari i Lutjeve</h2>
@@ -231,10 +273,70 @@ function filterVideos(category, btn) {
     if ("vibrate" in navigator) navigator.vibrate(10);
 }
 
+
+
+
+const lutjetEKoheve = {
+    sabahu: {
+        titulli: "Dhikri i Mëngjesit (Pas Syfyrit)",
+        lutja: "Hasbijallahu la ilahe il-la Huve, alejhi tevekkeltu ve Huve Rabbul-arshil-adhim.",
+        shpjegimi: "Më mjafton Allahu, s’ka të adhuruar tjetër përveç Tij. Te Ai jam mbështetur dhe Ai është Zoti i Arshit të Madh."
+    },
+    dreka: {
+        titulli: "Dhikri i Mesditës",
+        lutja: "Subhanallahi ve bihamdihi, adede khalkihi ve rida nefsihi ve zinete arshihi.",
+        shpjegimi: "I pastër është Allahu, aq sa është numri i krijesave të Tij, aq sa dëshiron Ai vetë."
+    },
+    ikindia: {
+        titulli: "Përgatitja për Iftar",
+        lutja: "Estagfirullah el-Adhim el-ledhi la ilahe il-la Huvel-Hajjul-Kajjumu ve etubu ilejhi.",
+        shpjegimi: "Kërkoj falje te Allahu i Madhëruar, që s'ka zot tjetër përveç Tij, i Gjallë dhe i Përhershmi."
+    },
+    akshami: {
+        titulli: "Lutja e Iftarit",
+        lutja: "Allahumme leke sumtu ve 'ala rrizkike eftartu.",
+        shpjegimi: "O Allah, për Ty agjërova dhe me rrizkun Tënd bëra iftar."
+    },
+    jacia: {
+        titulli: "Para Teravive & Gjumi",
+        lutja: "Allahumme bi-ismike emutu ve ahja.",
+        shpjegimi: "O Allah, me emrin Tënd vdes (fle) dhe ringjallun (zgjohem)."
+    }
+};
+
+function showKoha(koha, btn) {
+    // Ndrysho stilin e butonave
+    document.querySelectorAll('.koha-btn').forEach(b => b.classList.remove('active-koha'));
+    btn.classList.add('active-koha');
+
+    const data = lutjetEKoheve[koha];
+    const display = document.getElementById('koha-display');
+
+    display.innerHTML = `
+        <div class="animate__animated animate__fadeIn">
+            <h3 class="text-amber-500 text-[10px] font-black uppercase tracking-[0.3em] mb-2">${data.titulli}</h3>
+            <div class="h-1 w-10 bg-amber-500/20 mb-6"></div>
+            <p class="text-2xl font-medium italic text-white leading-tight mb-6">"${data.lutja}"</p>
+            <p class="text-gray-500 text-sm font-light border-l-2 border-white/10 pl-4">${data.shpjegimi}</p>
+        </div>
+    `;
+    
+    if ("vibrate" in navigator) navigator.vibrate(5);
+}
+
+// Shfaq Sabahun automatikisht kur hapet faqja
+document.addEventListener('DOMContentLoaded', () => {
+    const parazgjedhur = document.querySelector('.koha-btn');
+    showKoha('sabahu', parazgjedhur);
+});
+
+
+        
         
     </script>
 </body>
 </html>
+
 
 
 
