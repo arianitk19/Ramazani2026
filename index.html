@@ -297,6 +297,77 @@
     </div>
 </div>
 
+
+
+
+
+
+        <section class="mt-10 animate__animated animate__fadeInUp" style="animation-delay: 0.6s">
+    <div class="flex items-center justify-between mb-5 px-2">
+        <h2 class="text-white text-[10px] font-black uppercase tracking-[0.3em]">Udhëzuesi i Ramazanit</h2>
+        <span class="h-[1px] flex-1 bg-white/5 ml-4"></span>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+        <button onclick="openInfoModal('rregullat')" class="vaktia-glass p-5 rounded-[2.5rem] border border-white/5 flex flex-col items-start gap-3 active:scale-95 transition-all text-left group">
+            <div class="h-10 w-10 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-500 group-hover:bg-emerald-500 group-hover:text-black transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div>
+                <p class="text-[10px] text-white font-bold uppercase tracking-widest">Rregullat</p>
+                <p class="text-[9px] text-gray-500 mt-1 uppercase tracking-tighter">Çka e prish agjërimin?</p>
+            </div>
+        </button>
+
+        <button onclick="openInfoModal('dobite')" class="vaktia-glass p-5 rounded-[2.5rem] border border-white/5 flex flex-col items-start gap-3 active:scale-95 transition-all text-left group">
+            <div class="h-10 w-10 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+            </div>
+            <div>
+                <p class="text-[10px] text-white font-bold uppercase tracking-widest">Shëndeti</p>
+                <p class="text-[9px] text-gray-500 mt-1 uppercase tracking-tighter">Dobitë e agjërimit</p>
+            </div>
+        </button>
+
+        <button onclick="openInfoModal('kadri')" class="vaktia-glass p-5 rounded-[2.5rem] border border-white/5 flex flex-col items-start gap-3 active:scale-95 transition-all text-left group">
+            <div class="h-10 w-10 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500 group-hover:bg-amber-500 group-hover:text-black transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.382-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
+            </div>
+            <div>
+                <p class="text-[10px] text-white font-bold uppercase tracking-widest">Adhurimi</p>
+                <p class="text-[9px] text-gray-500 mt-1 uppercase tracking-tighter">Nata e Kadrit</p>
+            </div>
+        </button>
+
+        <button onclick="openInfoModal('sadakaja')" class="vaktia-glass p-5 rounded-[2.5rem] border border-white/5 flex flex-col items-start gap-3 active:scale-95 transition-all text-left group">
+            <div class="h-10 w-10 rounded-2xl bg-purple-500/10 flex items-center justify-center text-purple-500 group-hover:bg-purple-500 group-hover:text-white transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            </div>
+            <div>
+                <p class="text-[10px] text-white font-bold uppercase tracking-widest">Lëmosha</p>
+                <p class="text-[9px] text-gray-500 mt-1 uppercase tracking-tighter">Zekati & Fitri</p>
+            </div>
+        </button>
+    </div>
+</section>
+
+<div id="info-modal" class="fixed inset-0 z-[110] hidden flex items-center justify-center p-4 sm:p-6 transition-all duration-500">
+    <div class="absolute inset-0 bg-black/95 backdrop-blur-2xl" onclick="closeInfoModal()"></div>
+    <div class="relative w-full max-w-lg bg-[#050505] rounded-[3rem] border border-white/10 overflow-hidden animate__animated animate__zoomIn animate__faster">
+        <div class="p-8">
+            <div id="info-icon-container" class="h-16 w-16 rounded-[1.5rem] flex items-center justify-center mb-6">
+                </div>
+            <h3 id="info-title" class="text-2xl text-white font-bold mb-4 tracking-tight"></h3>
+            <div id="info-body" class="text-gray-400 text-sm leading-relaxed space-y-4 font-light">
+                </div>
+            <button onclick="closeInfoModal()" class="w-full mt-8 py-4 bg-white/5 border border-white/10 rounded-2xl text-white text-[10px] font-bold uppercase tracking-[0.2em] active:scale-95 transition-all">Mbyll Udhëzuesin</button>
+        </div>
+    </div>
+</div>
+
+        
+
+
         
 
         <section class="grid grid-cols-2 gap-4 animate__animated animate__fadeInUp" style="animation-delay: 0.6s">
@@ -546,12 +617,86 @@ async function loadSurah(id, name) {
     }
 }
 
+
+
+
+// --- LOGJIKA E SEKTORIT "MESO PER RAMAZANIN" ---
+
+const ramadanData = {
+    rregullat: {
+        title: "Rregullat e Agjërimit",
+        icon: '<svg class="w-8 h-8 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
+        bg: "bg-emerald-500/10",
+        text: `
+            <p>• <b>Nijeti:</b> Agjërimi fillon me vendosjen e qëllimit në zemër para agimit.</p>
+            <p>• <b>Çka e prish:</b> Ushqimi, pija dhe marrëdhëniet gjatë kohës së agjërimit.</p>
+            <p>• <b>Çka nuk e prish:</b> Larja e dhëmbëve (pa e gëlltitur ujin), përdorimi i parfumit, ose harresa gjatë ngrënies.</p>
+            <p>• <b>Kompensimi:</b> Personat e sëmurë ose udhëtarët mund t'i kompensojnë ditët pas Ramazanit.</p>
+        `
+    },
+    dobite: {
+        title: "Dobitë e Agjërimit",
+        icon: '<svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>',
+        bg: "bg-blue-500/10",
+        text: `
+            <p>• <b>Autofagjia:</b> Pas 12 orësh agjërimi, trupi fillon të pastrojë qelizat e dëmtuara.</p>
+            <p>• <b>Detoksifikimi:</b> Sistemi tretës pushon, duke i dhënë mundësi mëlçisë të nxjerrë helmet jashtë.</p>
+            <p>• <b>Përqendrimi:</b> Agjërimi rrit prodhimin e proteinave që mbrojnë trurin dhe rrisin fokusin.</p>
+            <p>• <b>Zemra:</b> Ndihmon në uljen e tensionit të gjakut dhe kolesterolit të keq.</p>
+        `
+    },
+    kadri: {
+        title: "Nata e Kadrit",
+        icon: '<svg class="w-8 h-8 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.382-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>',
+        bg: "bg-amber-500/10",
+        text: `
+            <p>• <b>Vlera:</b> Kjo natë është më e vlefshme se 1000 muaj (rreth 83 vite adhurim).</p>
+            <p>• <b>Kur është:</b> Kërkohet në netët teke të 10-ditëshit të fundit të Ramazanit.</p>
+            <p>• <b>Adhurimi:</b> Rekomandohet leximi i Kuranit, lutjet e sinqerta dhe falja e namazit të natës.</p>
+            <p>• <b>Duaja:</b> "O Allah, Ti je Falës, e dëshiron faljen, andaj më fal mua."</p>
+        `
+    },
+    sadakaja: {
+        title: "Zekati dhe Fitri",
+        icon: '<svg class="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>',
+        bg: "bg-purple-500/10",
+        text: `
+            <p>• <b>Zekat-ul-Fitr:</b> Eshtë obligim për çdo musliman që ka mundësi, për të pastruar agjërimin dhe ndihmuar të varfrit për festën e Bajramit.</p>
+            <p>• <b>Koha:</b> Duhet të jepet para faljes së namazit të Bajramit.</p>
+            <p>• <b>Zekati:</b> Shumë njerëz zgjedhin Ramazanin për të dhënë 2.5% të pasurisë së tyre vjetore për bamirësi.</p>
+        `
+    }
+};
+
+function openInfoModal(key) {
+    const data = ramadanData[key];
+    const modal = document.getElementById('info-modal');
+    const iconContainer = document.getElementById('info-icon-container');
+    
+    document.getElementById('info-title').innerText = data.title;
+    document.getElementById('info-body').innerHTML = data.text;
+    
+    iconContainer.innerHTML = data.icon;
+    iconContainer.className = `h-16 w-16 rounded-[1.5rem] flex items-center justify-center mb-6 ${data.bg}`;
+    
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeInfoModal() {
+    document.getElementById('info-modal').classList.add('hidden');
+    document.body.style.overflow = 'auto';
+}
+
+
+    
     
 </script>
     
 </body>
 
 </html>
+
 
 
 
