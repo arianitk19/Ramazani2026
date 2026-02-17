@@ -252,13 +252,12 @@
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
-            <div class="p-4 border-b border-white/5 flex gap-3 overflow-x-auto no-scrollbar bg-black/20">
-                <button onclick="loadSurah(2, 'El-Bekare')" class="flex-none px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[10px] font-bold uppercase">El-Bekare</button>
-                <button onclick="loadSurah(97, 'El-Kadr')" class="flex-none px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-bold uppercase">El-Kadr</button>
-                <button onclick="loadSurah(36, 'Jasin')" class="flex-none px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-bold uppercase">Jasin</button>
-                <button onclick="loadSurah(67, 'El-Mulk')" class="flex-none px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-bold uppercase">El-Mulk</button>
-                <button onclick="loadSurah(55, 'Er-Rrahman')" class="flex-none px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-bold uppercase">Er-Rrahman</button>
-            </div>
+            <button onclick="loadSurah(1, 'El-Fatiha')" class="...">El-Fatiha</button>
+<button onclick="loadSurah(2, 'El-Bekare')" class="...">El-Bekare</button>
+<button onclick="loadSurah(36, 'Jasin')" class="...">Jasin</button>
+<button onclick="loadSurah(67, 'El-Mulk')" class="...">El-Mulk</button>
+<button onclick="loadSurah(18, 'El-Kehf')" class="...">El-Kehf</button>
+<button onclick="loadSurah(55, 'Er-Rrahman')" class="...">Er-Rrahman</button>
             <div id="surah-content" class="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar scroll-smooth">
                 <div class="text-center py-20">
                     <p class="text-gray-500 text-xs italic uppercase tracking-widest">Zgjidhni një sure për të filluar leximin...</p>
@@ -425,23 +424,76 @@
 
 
 
-// FUNKSIONET PER MODALIN E KURANIT (Shtuar per te funksionuar butoni)
-    function openQuranModal() {
-        document.getElementById('quran-modal').classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
+// --- LOGJIKA E KURANIT (TEKST + PËRKTHIM + AUDIO) ---
 
-    function closeQuranModal() {
-        const modal = document.getElementById('quran-modal');
-        const content = modal.querySelector('.relative');
-        content.classList.replace('animate__slideInUp', 'animate__slideOutDown');
-        setTimeout(() => {
-            modal.classList.add('hidden');
-            content.classList.replace('animate__slideOutDown', 'animate__slideInUp');
-            document.body.style.overflow = 'auto';
-            document.getElementById('quran-audio').pause();
-        }, 300);
+async function loadSurah(id, name) {
+    const content = document.getElementById('surah-content');
+    const title = document.getElementById('surah-title');
+    const audioContainer = document.getElementById('audio-container');
+    const audioElement = document.getElementById('quran-audio');
+
+    // Efekti i ngarkimit (Consistent me stilin tënd)
+    title.innerText = `Duke hapur: ${name}...`;
+    content.innerHTML = `
+        <div class="flex flex-col items-center justify-center py-20 animate-pulse">
+            <div class="h-12 w-12 border-t-2 border-amber-500 rounded-full animate-spin mb-4"></div>
+            <p class="text-[10px] text-amber-500 uppercase tracking-[0.4em]">Bismillah...</p>
+        </div>
+    `;
+
+    try {
+        // Marrim dy API paralelisht: Arabisht dhe Shqip
+        const [arRes, sqRes] = await Promise.all([
+            fetch(`https://api.alquran.cloud/v1/surah/${id}`),
+            fetch(`https://api.alquran.cloud/v1/surah/${id}/sq.ahmeti`)
+        ]);
+
+        const arData = await arRes.json();
+        const sqData = await sqRes.json();
+        
+        title.innerText = `SURETU ${name.toUpperCase()}`;
+        content.innerHTML = ""; // Pastrojmë loader-in
+
+        // Ndërtimi i ajetit me stilin tënd
+        arData.data.ayahs.forEach((ayah, index) => {
+            const sqText = sqData.data.ayahs[index].text;
+            
+            content.innerHTML += `
+                <div class="vaktia-glass rounded-[2rem] p-6 mb-6 border border-white/5 animate__animated animate__fadeInUp">
+                    <p class="text-right text-3xl leading-[3.5rem] font-serif text-white mb-6 drop-shadow-md" dir="rtl">
+                        ${ayah.text}
+                    </p>
+                    
+                    <div class="flex items-center gap-4 mb-6 opacity-20">
+                        <div class="h-[1px] flex-1 bg-amber-500"></div>
+                        <span class="text-amber-500 text-[8px] tracking-widest font-black">${ayah.numberInSurah}</span>
+                        <div class="h-[1px] flex-1 bg-amber-500"></div>
+                    </div>
+
+                    <p class="text-sm text-gray-300 font-light leading-relaxed tracking-wide italic">
+                        ${sqText}
+                    </p>
+                </div>
+            `;
+        });
+
+        // Kontrolli i Audios (Mishary Rashid Alafasy)
+        audioElement.src = `https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/${id}.mp3`;
+        audioContainer.classList.remove('hidden');
+        audioContainer.classList.add('animate__animated', 'animate__slideInUp');
+        
+        // Scroll në fillim automatikisht
+        content.scrollTo({ top: 0, behavior: 'smooth' });
+
+    } catch (error) {
+        content.innerHTML = `
+            <div class="text-center py-20 border border-red-500/20 rounded-[2rem] bg-red-500/5">
+                <p class="text-amber-500 text-xs font-bold uppercase tracking-widest">Lidhja dështoi</p>
+                <p class="text-gray-500 text-[10px] mt-2 italic px-10">API nuk po përgjigjet. Kontrolloni internetin tuaj.</p>
+            </div>
+        `;
     }
+}
 
     
 </script>
@@ -449,6 +501,7 @@
 </body>
 
 </html>
+
 
 
 
