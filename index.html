@@ -236,6 +236,39 @@
 
 
 
+<div id="quran-modal" class="fixed inset-0 z-[100] hidden flex items-end sm:items-center justify-center p-0 sm:p-6">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeQuranModal()"></div>
+        <div class="relative w-full max-w-2xl bg-[#0a0a0a] h-[90vh] sm:h-[80vh] rounded-t-[2.5rem] sm:rounded-[2.5rem] border-t sm:border border-white/10 overflow-hidden flex flex-col animate__animated animate__slideInUp animate__faster">
+            <div class="p-6 border-b border-white/5 bg-white/5 flex justify-between items-center">
+                <div>
+                    <h3 class="text-white font-bold tracking-[0.2em] uppercase text-xs">Kurani i Shenjtë</h3>
+                    <p class="text-[9px] text-amber-500 uppercase mt-1 tracking-widest" id="surah-title">Zgjidhni Suren</p>
+                </div>
+                <button onclick="closeQuranModal()" class="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="p-4 border-b border-white/5 flex gap-3 overflow-x-auto no-scrollbar bg-black/20">
+                <button onclick="loadSurah(2, 'El-Bekare')" class="flex-none px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[10px] font-bold uppercase">El-Bekare</button>
+                <button onclick="loadSurah(97, 'El-Kadr')" class="flex-none px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-bold uppercase">El-Kadr</button>
+                <button onclick="loadSurah(36, 'Jasin')" class="flex-none px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-bold uppercase">Jasin</button>
+                <button onclick="loadSurah(67, 'El-Mulk')" class="flex-none px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-bold uppercase">El-Mulk</button>
+                <button onclick="loadSurah(55, 'Er-Rrahman')" class="flex-none px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-bold uppercase">Er-Rrahman</button>
+            </div>
+            <div id="surah-content" class="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar scroll-smooth">
+                <div class="text-center py-20">
+                    <p class="text-gray-500 text-xs italic uppercase tracking-widest">Zgjidhni një sure për të filluar leximin...</p>
+                </div>
+            </div>
+            <div id="audio-container" class="hidden p-4 bg-white/5 border-t border-white/10 backdrop-blur-xl">
+                <audio id="quran-audio" controls class="w-full h-8 filter invert opacity-70"></audio>
+                <p class="text-[8px] text-center text-gray-500 mt-2 uppercase tracking-[0.2em]">Recitimi: Mishary Rashid Alafasy</p>
+            </div>
+        </div>
+    </div>
+
+        
+
         <section class="grid grid-cols-2 gap-4 animate__animated animate__fadeInUp" style="animation-delay: 0.6s">
 
             <div class="vaktia-glass p-6 rounded-[2rem] text-center border-l-2 border-blue-500/30">
@@ -385,9 +418,32 @@
             }
         }
     }, 60000);
+
+
+
+// FUNKSIONET PER MODALIN E KURANIT (Shtuar per te funksionuar butoni)
+    function openQuranModal() {
+        document.getElementById('quran-modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeQuranModal() {
+        const modal = document.getElementById('quran-modal');
+        const content = modal.querySelector('.relative');
+        content.classList.replace('animate__slideInUp', 'animate__slideOutDown');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            content.classList.replace('animate__slideOutDown', 'animate__slideInUp');
+            document.body.style.overflow = 'auto';
+            document.getElementById('quran-audio').pause();
+        }, 300);
+    }
+
+    
 </script>
     
 </body>
 
 </html>
+
 
