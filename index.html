@@ -94,6 +94,17 @@
 
         @keyframes move { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
+
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(251, 191, 36, 0.2); border-radius: 10px; }
+
+
+        
     </style>
 
 </head>
@@ -486,6 +497,7 @@ async function loadSurah(number, name) {
 </body>
 
 </html>
+
 
 
 
