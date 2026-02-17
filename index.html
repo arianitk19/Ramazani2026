@@ -209,47 +209,10 @@
 
                 </button>
 
-                
-
-                <div id="times-display" class="hidden">
-
-                    <p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Vendi i Detektuar</p>
-
-                    <h3 id="detected-city" class="text-3xl font-bold text-white mb-8 tracking-tighter italic">Pritni...</h3>
-
-                    
-
-                    <div class="grid grid-cols-2 gap-4">
-
-                        <div class="bg-white/[0.03] p-6 rounded-[2.2rem] border-t border-white/5">
-
-                            <p class="text-[10px] text-gray-500 uppercase font-bold mb-2 tracking-widest">Imsaku</p>
-
-                            <p id="imsaku-val" class="text-3xl font-bold font-mono tracking-tighter">--:--</p>
-
-                        </div>
-
-                        <div class="bg-amber-500/[0.05] p-6 rounded-[2.2rem] border-t border-amber-500/10">
-
-                            <p class="text-[10px] text-amber-500 uppercase font-bold mb-2 tracking-widest">Iftari</p>
-
-                            <p id="iftari-val" class="text-3xl font-bold font-mono tracking-tighter text-amber-500">--:--</p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
 
 
 
-
-
-        <div id="quran-modal" class="fixed inset-0 z-[100] hidden flex items-end sm:items-center justify-center p-0 sm:p-6">
+<div id="quran-modal" class="fixed inset-0 z-[100] hidden flex items-end sm:items-center justify-center p-0 sm:p-6">
     <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeQuranModal()"></div>
     
     <div class="relative w-full max-w-2xl bg-[#0a0a0a] h-[90vh] sm:h-[80vh] rounded-t-[2.5rem] sm:rounded-[2.5rem] border-t sm:border border-white/10 overflow-hidden flex flex-col animate__animated animate__slideInUp animate__faster">
@@ -287,8 +250,45 @@
 
 
 
-        
 
+                
+
+                <div id="times-display" class="hidden">
+
+                    <p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Vendi i Detektuar</p>
+
+                    <h3 id="detected-city" class="text-3xl font-bold text-white mb-8 tracking-tighter italic">Pritni...</h3>
+
+                    
+
+                    <div class="grid grid-cols-2 gap-4">
+
+                        <div class="bg-white/[0.03] p-6 rounded-[2.2rem] border-t border-white/5">
+
+                            <p class="text-[10px] text-gray-500 uppercase font-bold mb-2 tracking-widest">Imsaku</p>
+
+                            <p id="imsaku-val" class="text-3xl font-bold font-mono tracking-tighter">--:--</p>
+
+                        </div>
+
+                        <div class="bg-amber-500/[0.05] p-6 rounded-[2.2rem] border-t border-amber-500/10">
+
+                            <p class="text-[10px] text-amber-500 uppercase font-bold mb-2 tracking-widest">Iftari</p>
+
+                            <p id="iftari-val" class="text-3xl font-bold font-mono tracking-tighter text-amber-500">--:--</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        
+        
         <section class="grid grid-cols-2 gap-4 animate__animated animate__fadeInUp" style="animation-delay: 0.6s">
 
             <div class="vaktia-glass p-6 rounded-[2rem] text-center border-l-2 border-blue-500/30">
@@ -497,6 +497,7 @@ async function loadSurah(number, name) {
 </body>
 
 </html>
+
 
 
 
