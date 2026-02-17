@@ -262,228 +262,123 @@
 
 
 
-    <script>
-
-        // LOGJIKA E MENU-SË
-
+  <script>
+        // 1. LOGJIKA E MENU-SË
         function toggleMenu() {
-
             const menu = document.getElementById('burger-menu');
-
             const btn = document.getElementById('menu-btn');
-
             menu.classList.toggle('active');
-
             btn.classList.toggle('active-btn');
-
             document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : 'auto';
-
         }
 
-
-
-        // LOGJIKA E LOKACIONIT (GPS Real)
-
+        // 2. LOGJIKA E LOKACIONIT (Me Fallback nga Settings)
         async function getUserLocation() {
-
             const btn = document.getElementById('activate-btn');
-
             const display = document.getElementById('times-display');
-
             const cityLabel = document.getElementById('detected-city');
-
             
+            // Merr qytetin rezervë nga LocalStorage (lidhja me settings.html)
+            const savedSettings = JSON.parse(localStorage.getItem('vaktiaSettings'));
+            const fallbackCity = savedSettings?.city || "Prishtinë";
 
             btn.innerHTML = "Duke verifikuar...";
 
-            
+            const finalizeUI = (pData, cityName) => {
+                btn.classList.add('animate__animated', 'animate__fadeOutDown');
+                setTimeout(() => {
+                    btn.classList.add('hidden');
+                    display.classList.remove('hidden');
+                    display.classList.add('animate__animated', 'animate__fadeInUp');
+                    
+                    cityLabel.innerText = cityName.toUpperCase();
+                    document.getElementById('imsaku-val').innerText = pData.data.timings.Fajr;
+                    document.getElementById('iftari-val').innerText = pData.data.timings.Maghrib;
+                    
+                    // Aktivizo njoftimin për Iftar
+                    initIftarNotification(pData.data.timings.Maghrib);
+                }, 500);
+            };
 
             if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    async (pos) => {
+                        const { latitude, longitude } = pos.coords;
+                        try {
+                            const geo = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
+                            const geoData = await geo.json();
+                            const city = geoData.address.city || geoData.address.town || fallbackCity;
 
-                navigator.geolocation.getCurrentPosition(async (pos) => {
-
-                    const { latitude, longitude } = pos.coords;
-
-                    try {
-
-                        // Marrim qytetin
-
-                        const geo = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
-
-                        const geoData = await geo.json();
-
-                        const city = geoData.address.city || geoData.address.town || geoData.address.village || "Kosovë";
-
-
-
-                        // Marrim kohët (Metoda 13 = BIK Kosovë)
-
-                        const pReq = await fetch(`https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=13`);
-
-                        const pData = await pReq.json();
-
-
-
-                        btn.classList.add('animate__animated', 'animate__fadeOutDown');
-
-                        setTimeout(() => {
-
-                            btn.classList.add('hidden');
-
-                            display.classList.remove('hidden');
-
-                            display.classList.add('animate__animated', 'animate__fadeInUp');
-
-                            cityLabel.innerText = city.toUpperCase();
-
-                            document.getElementById('imsaku-val').innerText = pData.data.timings.Fajr;
-
-                            document.getElementById('iftari-val').innerText = pData.data.timings.Maghrib;
-
-                        }, 500);
-
-                    } catch (e) { btn.innerHTML = "Gabim në API"; }
-
-                }, () => btn.innerHTML = "Aktivizo GPS");
-
+                            const pReq = await fetch(`https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=13`);
+                            const pData = await pReq.json();
+                            
+                            finalizeUI(pData, city);
+                        } catch (e) { 
+                            btn.innerHTML = "Gabim në API"; 
+                        }
+                    }, 
+                    async () => {
+                        // GPS u refuzua - Përdor qytetin nga Settings
+                        try {
+                            btn.innerHTML = `Duke përdorur ${fallbackCity}...`;
+                            const pReq = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${fallbackCity}&country=Kosovo&method=13`);
+                            const pData = await pReq.json();
+                            finalizeUI(pData, fallbackCity);
+                        } catch (e) {
+                            btn.innerHTML = "GPS i detyrueshëm";
+                        }
+                    }
+                );
             }
-
         }
 
+        // 3. LOGJIKA E NJOFTIMIT TË IFTARIT
+        function initIftarNotification(iftariTime) {
+            setInterval(() => {
+                const tani = new Date();
+                const oraAktuale = tani.getHours().toString().padStart(2, '0') + ":" + 
+                                  tani.getMinutes().toString().padStart(2, '0');
+                
+                if (oraAktuale === iftariTime && Notification.permission === 'granted') {
+                    navigator.serviceWorker.ready.then(reg => {
+                        reg.showNotification("Koha e Iftarit!", {
+                            body: "Allahu ju pranoftë agjërimin. Mund të hapni iftarin.",
+                            icon: "logo.svg",
+                            vibrate: [200, 100, 200]
+                        });
+                    });
+                }
+            }, 60000);
+        }
 
-
-        // LOGJIKA E COUNTDOWN-IT (19 Shkurt 2026)
-
-        const target = new Date("February 19, 2026 04:49:00").getTime();
-
+        // 4. COUNTDOWN (Ramazan 2026)
+        const target = new Date("February 18, 2026 00:00:00").getTime();
         setInterval(() => {
-
             const diff = target - new Date().getTime();
-
             if (diff < 0) return;
-
             document.getElementById('days').innerText = Math.floor(diff / 86400000);
-
             document.getElementById('hours').innerText = Math.floor((diff % 86400000) / 3600000);
-
             document.getElementById('minutes').innerText = Math.floor((diff % 3600000) / 60000);
-
             document.getElementById('seconds').innerText = Math.floor((diff % 60000) / 1000);
-
         }, 1000);
 
+        // 5. SERVICE WORKER & PERMISSIONS
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then(reg => {
+                if (Notification.permission === 'default') {
+                    setTimeout(() => {
+                        Notification.requestPermission();
+                    }, 3000);
+                }
+            });
+        }
     </script>
 
-    
-
-<script>
-
-  if ('serviceWorker' in navigator) {
-
-    window.addEventListener('load', () => {
-
-      navigator.serviceWorker.register('/sw.js')
-
-        .then(reg => console.log('Service Worker u regjistrua!'))
-
-        .catch(err => console.log('Gabim në regjistrim:', err));
-
-    });
-
-  }
-
-</script>
-
-
-
-<script>
-
-  if ('serviceWorker' in navigator) {
-
-    window.addEventListener('load', () => {
-
-      navigator.serviceWorker.register('/sw.js').then(reg => {
-
-        console.log('Service Worker u regjistrua!');
-
-        
-
-        // Kërko leje për njoftime
-
-        if (Notification.permission === 'default') {
-
-            setTimeout(() => {
-
-                Notification.requestPermission().then(perm => {
-
-                    if (perm === 'granted') {
-
-                        console.log('Përdoruesi lejoi njoftimet!');
-
-                    }
-
-                });
-
-            }, 3000); // Shfaqet pas 3 sekondash
-
-        }
-
-      });
-
-    });
-
-  }
-
-
-
-// Shtoje këtë brenda setTimeout te getUserLocation, pasi të kesh marrë pData
-
-const iftariTime = pData.data.timings.Maghrib; // format "18:05"
-
-
-
-// Funksioni që kontrollon çdo minutë nëse erdhi koha e Iftarit
-
-setInterval(() => {
-
-    const tani = new Date();
-
-    const oraAktuale = tani.getHours().toString().padStart(2, '0') + ":" + 
-
-                      tani.getMinutes().toString().padStart(2, '0');
-
-    
-
-    if (oraAktuale === iftariTime) {
-
-        if (Notification.permission === 'granted') {
-
-            navigator.serviceWorker.ready.then(registration => {
-
-                registration.showNotification("Koha e Iftarit!", {
-
-                    body: "Allahu ju pranoftë agjërimin. Mund të hapni iftarin.",
-
-                    icon: "logo.svg",
-
-                    vibrate: [200, 100, 200]
-
-                });
-
-            });
-
-        }
-
-    }
-
-}, 60000); // Kontrollon çdo 60 sekonda
-
-    
-
-</script>
+     
 
     
 </body>
 
 </html>
+
 
