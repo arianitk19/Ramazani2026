@@ -78,7 +78,6 @@
     </header>
 
     <main class="w-full max-w-md px-6 mt-12 space-y-8 pb-20">
-        
         <section class="vaktia-glass rounded-[3rem] p-10 text-center relative overflow-hidden group">
             <div class="absolute top-0 left-0 w-full h-[1px] shkelqimi"></div>
             <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-8">Deri në fillimin e muajit të shenjtë</p>
@@ -99,11 +98,9 @@
                     <svg class="w-5 h-5 mr-3 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     Përcakto Vendndodhjen
                 </button>
-                
                 <div id="times-display" class="hidden">
                     <p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Vendi i Detektuar</p>
                     <h3 id="detected-city" class="text-3xl font-bold text-white mb-8 tracking-tighter italic">Pritni...</h3>
-                    
                     <div class="grid grid-cols-2 gap-4">
                         <div class="bg-white/[0.03] p-6 rounded-[2.2rem] border-t border-white/5">
                             <p class="text-[10px] text-gray-500 uppercase font-bold mb-2 tracking-widest">Imsaku</p>
@@ -132,7 +129,7 @@
                 <svg class="w-5 h-5 text-gray-500 group-hover:text-amber-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </button>
         </section>
-        
+
         <section class="grid grid-cols-2 gap-4 animate__animated animate__fadeInUp" style="animation-delay: 0.6s">
             <div class="vaktia-glass p-6 rounded-[2rem] text-center border-l-2 border-blue-500/30">
                 <p class="text-[9px] text-gray-500 uppercase font-bold mb-1">Sezona 2026</p>
@@ -161,23 +158,17 @@
                 <button onclick="loadSurah(2, 'El-Bekare')" class="flex-none px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[10px] font-bold uppercase">El-Bekare</button>
                 <button onclick="loadSurah(97, 'El-Kadr')" class="flex-none px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-bold uppercase">El-Kadr</button>
                 <button onclick="loadSurah(36, 'Jasin')" class="flex-none px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-bold uppercase">Jasin</button>
-                <button onclick="loadSurah(67, 'El-Mulk')" class="flex-none px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-bold uppercase">El-Mulk</button>
-                <button onclick="loadSurah(55, 'Er-Rrahman')" class="flex-none px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-bold uppercase">Er-Rrahman</button>
             </div>
             <div id="surah-content" class="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar scroll-smooth">
                 <div class="text-center py-20">
                     <p class="text-gray-500 text-xs italic uppercase tracking-widest">Zgjidhni një sure për të filluar leximin...</p>
                 </div>
             </div>
-            <div id="audio-container" class="hidden p-4 bg-white/5 border-t border-white/10 backdrop-blur-xl">
-                <audio id="quran-audio" controls class="w-full h-8 filter invert opacity-70"></audio>
-                <p class="text-[8px] text-center text-gray-500 mt-2 uppercase tracking-[0.2em]">Recitimi: Mishary Rashid Alafasy</p>
-            </div>
         </div>
     </div>
 
     <script>
-        let globalIftariTime = "";
+        let iftariTime = "";
 
         function toggleMenu() {
             const menu = document.getElementById('burger-menu');
@@ -187,89 +178,54 @@
             document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : 'auto';
         }
 
-        function openQuranModal() {
-            document.getElementById('quran-modal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeQuranModal() {
-            const modal = document.getElementById('quran-modal');
-            const content = modal.querySelector('.relative');
-            content.classList.replace('animate__slideInUp', 'animate__slideOutDown');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                content.classList.replace('animate__slideOutDown', 'animate__slideInUp');
-                document.body.style.overflow = 'auto';
-                document.getElementById('quran-audio').pause();
-            }, 300);
-        }
-
-        async function loadSurah(id, name) {
-            const container = document.getElementById('surah-content');
-            const title = document.getElementById('surah-title');
-            container.innerHTML = '<p class="text-center text-amber-500 animate-pulse uppercase text-[10px]">Duke hapur librin...</p>';
-            title.innerText = name;
-
-            try {
-                const res = await fetch(`https://api.alquran.cloud/v1/surah/${id}/sq.ahmeti`);
-                const data = await res.json();
-                container.innerHTML = data.data.ayahs.map(ayah => `
-                    <div class="space-y-2 border-b border-white/5 pb-4">
-                        <span class="text-[10px] text-amber-500 font-bold">AJETI ${ayah.numberInSurah}</span>
-                        <p class="text-white text-lg leading-relaxed font-light">${ayah.text}</p>
-                    </div>
-                `).join('');
-                
-                // Audio Logic
-                const audioContainer = document.getElementById('audio-container');
-                const audioPlayer = document.getElementById('quran-audio');
-                audioContainer.classList.remove('hidden');
-                audioPlayer.src = `https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/${id}.mp3`;
-            } catch (e) {
-                container.innerHTML = '<p class="text-red-500">Gabim në ngarkim.</p>';
-            }
-        }
+        function openQuranModal() { document.getElementById('quran-modal').classList.remove('hidden'); }
+        function closeQuranModal() { document.getElementById('quran-modal').classList.add('hidden'); }
 
         async function getUserLocation() {
             const btn = document.getElementById('activate-btn');
             const display = document.getElementById('times-display');
             const cityLabel = document.getElementById('detected-city');
             btn.innerHTML = "Duke verifikuar...";
-            
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(async (pos) => {
                     const { latitude, longitude } = pos.coords;
                     try {
-                        const geo = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
-                        const geoData = await geo.json();
-                        const city = geoData.address.city || geoData.address.town || geoData.address.village || "Kosovë";
-
                         const pReq = await fetch(`https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=13`);
                         const pData = await pReq.json();
-
-                        globalIftariTime = pData.data.timings.Maghrib;
-
-                        btn.classList.add('animate__animated', 'animate__fadeOutDown');
-                        setTimeout(() => {
-                            btn.classList.add('hidden');
-                            display.classList.remove('hidden');
-                            display.classList.add('animate__animated', 'animate__fadeInUp');
-                            cityLabel.innerText = city.toUpperCase();
-                            document.getElementById('imsaku-val').innerText = pData.data.timings.Fajr;
-                            document.getElementById('iftari-val').innerText = pData.data.timings.Maghrib;
-                        }, 500);
+                        iftariTime = pData.data.timings.Maghrib;
+                        btn.classList.add('hidden');
+                        display.classList.remove('hidden');
+                        cityLabel.innerText = "LOKACIONI YT";
+                        document.getElementById('imsaku-val').innerText = pData.data.timings.Fajr;
+                        document.getElementById('iftari-val').innerText = pData.data.timings.Maghrib;
                     } catch (e) { btn.innerHTML = "Gabim në API"; }
                 }, () => btn.innerHTML = "Aktivizo GPS");
             }
         }
 
-        const target = new Date("February 18, 2026 00:00:00").getTime();
+        // AUTO-LOAD NGA SETTINGS
+        window.onload = async () => {
+            const saved = JSON.parse(localStorage.getItem('vaktiaSettings'));
+            if (saved && saved.city) {
+                const btn = document.getElementById('activate-btn');
+                btn.innerHTML = "Duke ngarkuar " + saved.city + "...";
+                try {
+                    const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${saved.city}&country=Kosovo&method=13`);
+                    const data = await res.json();
+                    iftariTime = data.data.timings.Maghrib;
+                    btn.classList.add('hidden');
+                    document.getElementById('times-display').classList.remove('hidden');
+                    document.getElementById('detected-city').innerText = saved.city.toUpperCase();
+                    document.getElementById('imsaku-val').innerText = data.data.timings.Fajr;
+                    document.getElementById('iftari-val').innerText = data.data.timings.Maghrib;
+                } catch(e) {}
+            }
+        };
+
+        const target = new Date("February 18, 2026 04:49:00").getTime();
         setInterval(() => {
             const diff = target - new Date().getTime();
-            if (diff < 0) {
-                document.getElementById('timer').innerHTML = "<p class='text-amber-500 font-bold uppercase tracking-widest w-full'>Ramazani ka filluar!</p>";
-                return;
-            };
+            if (diff < 0) return;
             document.getElementById('days').innerText = Math.floor(diff / 86400000);
             document.getElementById('hours').innerText = Math.floor((diff % 86400000) / 3600000);
             document.getElementById('minutes').innerText = Math.floor((diff % 3600000) / 60000);
@@ -277,29 +233,15 @@
         }, 1000);
 
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').then(reg => {
-                    console.log('SW Registered');
-                    if (Notification.permission === 'default') {
-                        setTimeout(() => { Notification.requestPermission(); }, 3000);
-                    }
-                });
-            });
+            navigator.serviceWorker.register('/sw.js');
         }
 
         setInterval(() => {
-            if (!globalIftariTime) return;
+            if (!iftariTime) return;
             const tani = new Date();
-            const oraAktuale = tani.getHours().toString().padStart(2, '0') + ":" + tani.getMinutes().toString().padStart(2, '0');
-            if (oraAktuale === globalIftariTime) {
-                if (Notification.permission === 'granted') {
-                    navigator.serviceWorker.ready.then(reg => {
-                        reg.showNotification("Koha e Iftarit!", {
-                            body: "Allahu ju pranoftë agjërimin.",
-                            icon: "logo.svg"
-                        });
-                    });
-                }
+            const ora = tani.getHours().toString().padStart(2, '0') + ":" + tani.getMinutes().toString().padStart(2, '0');
+            if (ora === iftariTime && Notification.permission === 'granted') {
+                new Notification("Koha e Iftarit!");
             }
         }, 60000);
     </script>
