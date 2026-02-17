@@ -260,7 +260,6 @@
 
     </main>
 
-
 <script>
     // 1. LOGJIKA E MENU-SË
     function toggleMenu() {
@@ -286,12 +285,12 @@
             navigator.geolocation.getCurrentPosition(async (pos) => {
                 const { latitude, longitude } = pos.coords;
                 try {
-                    // Marrim qytetin
+                    // Marrim emrin e qytetit përmes koordinatave
                     const geo = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
                     const geoData = await geo.json();
                     const city = geoData.address.city || geoData.address.town || geoData.address.village || "Kosovë";
 
-                    // Marrim kohët (Metoda 13 = BIK Kosovë)
+                    // Marrim kohët nga Aladhan API (Metoda 13 = BIK)
                     const pReq = await fetch(`https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=13`);
                     const pData = await pReq.json();
 
@@ -307,10 +306,36 @@
                         document.getElementById('imsaku-val').innerText = pData.data.timings.Fajr;
                         document.getElementById('iftari-val').innerText = pData.data.timings.Maghrib;
                     }, 500);
-                } catch (e) { btn.innerHTML = "Gabim në API"; }
+                } catch (e) { 
+                    btn.innerHTML = "Gabim në API"; 
+                }
             }, () => btn.innerHTML = "Aktivizo GPS");
         }
     }
+
+    // --- NDRIDHJA ME SETTINGS (Auto-load) ---
+    window.addEventListener('load', async () => {
+        const savedSettings = JSON.parse(localStorage.getItem('vaktiaSettings'));
+        if (savedSettings && savedSettings.city) {
+            const btn = document.getElementById('activate-btn');
+            btn.innerHTML = `Ngarkimi: ${savedSettings.city}...`;
+            
+            try {
+                const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${savedSettings.city}&country=Kosovo&method=13`);
+                const data = await res.json();
+                
+                globalIftariTime = data.data.timings.Maghrib;
+                
+                btn.classList.add('hidden');
+                document.getElementById('times-display').classList.remove('hidden');
+                document.getElementById('detected-city').innerText = savedSettings.city.toUpperCase();
+                document.getElementById('imsaku-val').innerText = data.data.timings.Fajr;
+                document.getElementById('iftari-val').innerText = data.data.timings.Maghrib;
+            } catch(e) {
+                console.log("Gabim gjatë ngarkimit të qytetit të ruajtur.");
+            }
+        }
+    });
 
     // 3. LOGJIKA E COUNTDOWN-IT (19 Shkurt 2026)
     const target = new Date("February 19, 2026 04:49:00").getTime();
@@ -342,7 +367,7 @@
 
     // 5. KONTROLLI I IFTARIT (Çdo 60 sekonda)
     setInterval(() => {
-        if (!globalIftariTime) return; // Mos bëj asgjë nëse s'kemi të dhëna lokacioni
+        if (!globalIftariTime) return; 
 
         const tani = new Date();
         const oraAktuale = tani.getHours().toString().padStart(2, '0') + ":" + 
@@ -361,8 +386,8 @@
         }
     }, 60000);
 </script>
-
     
 </body>
 
 </html>
+
