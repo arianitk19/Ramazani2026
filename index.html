@@ -1,249 +1,368 @@
 <!DOCTYPE html>
+
 <html lang="sq">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>Ramazani 2026 | Vaktia Digjitale</title>
 
+
+
     <link rel="manifest" href="manifest.json">
+
     <meta name="theme-color" content="#020617">
 
-    <link rel="apple-touch-icon" href="https://img.icons8.com/fluency-systems-filled/512/D4AF37/crescent-moon.png">
+
+
+<link rel="apple-touch-icon" href="https://img.icons8.com/fluency-systems-filled/512/D4AF37/crescent-moon.png">
+
     <link rel="apple-touch-icon" sizes="152x152" href="logo.svg">
+
     <link rel="apple-touch-icon" sizes="180x180" href="logo.svg">
+
     <link rel="apple-touch-icon" sizes="167x167" href="logo.svg">
+
     
+
     <meta name="apple-mobile-web-app-capable" content="yes">
+
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
     <meta name="apple-mobile-web-app-title" content="Vaktia">
 
+
+
     <script src="https://cdn.tailwindcss.com"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+
     
+
     <style>
+
         :root { --gold: #fbbf24; --dark-bg: #020617; }
+
         body { background: var(--dark-bg); color: #f8fafc; font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
+
         
+
         .vaktia-glass {
+
             background: rgba(255, 255, 255, 0.02);
+
             backdrop-filter: blur(25px);
+
             border: 1px solid rgba(251, 191, 36, 0.1);
+
             box-shadow: inset 0 0 20px rgba(251, 191, 36, 0.02);
+
         }
+
+
 
         #burger-menu { transition: all 0.6s cubic-bezier(0.85, 0, 0.15, 1); clip-path: circle(0% at 100% 0%); }
+
         #burger-menu.active { clip-path: circle(150% at 100% 0%); }
+
         
+
         .line { transition: all 0.4s ease; height: 2px; width: 24px; background-color: var(--gold); display: block; margin: 6px 0; border-radius: 2px; }
+
         .active-btn .line-1 { transform: translateY(8px) rotate(45deg); }
+
         .active-btn .line-2 { opacity: 0; transform: translateX(-20px); }
+
         .active-btn .line-3 { transform: translateY(-8px) rotate(-45deg); }
 
+
+
         .neon-gold { text-shadow: 0 0 20px rgba(251, 191, 36, 0.3); }
+
         .shkelqimi {
+
             background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.15), transparent);
+
             animation: move 4s infinite linear;
+
         }
+
         @keyframes move { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+
     </style>
+
 </head>
+
 <body class="min-h-screen flex flex-col items-center">
 
+
+
     <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+
         <div class="absolute top-[-10%] right-[-10%] w-96 h-96 bg-emerald-600/10 blur-[120px] rounded-full"></div>
+
         <div class="absolute bottom-[-10%] left-[-10%] w-96 h-96 bg-amber-600/10 blur-[120px] rounded-full"></div>
+
     </div>
+
+
 
     <button onclick="toggleMenu()" id="menu-btn" class="fixed top-8 right-6 z-[100] p-4 vaktia-glass rounded-2xl border border-amber-500/10 active:scale-90 transition-transform">
+
         <span class="line line-1"></span>
+
         <span class="line line-2"></span>
+
         <span class="line line-3"></span>
+
     </button>
 
+
+
     <nav id="burger-menu" class="fixed inset-0 bg-slate-950 z-[90] flex flex-col items-center justify-center space-y-12">
+
         <a href="index.html" onclick="toggleMenu()" class="text-5xl font-bold text-amber-500 italic hover:tracking-widest transition-all">KREU</a>
+
         <a href="ushqimishpirtit.html" class="text-3xl font-light hover:text-amber-500 transition-colors uppercase tracking-widest">Lutjet</a>
+
         <a href="settings.html" class="text-3xl font-light hover:text-amber-500 transition-colors uppercase tracking-widest">Cilësimet</a>
+
         <div class="absolute bottom-12 opacity-30 text-[10px] tracking-[0.8em] uppercase">Vaktia 2026</div>
+
     </nav>
 
+
+
     <header class="w-full pt-20 px-6 text-center animate__animated animate__fadeIn">
+
         <div class="inline-flex items-center space-x-2 border border-amber-500/20 bg-amber-500/5 px-4 py-1.5 rounded-full mb-6">
+
             <span class="relative flex h-2 w-2"><span class="animate-ping absolute h-full w-full rounded-full bg-amber-400 opacity-75"></span><span class="relative h-2 w-2 bg-amber-500 rounded-full"></span></span>
+
             <span class="text-[10px] font-bold tracking-[0.4em] text-amber-500 uppercase">Vaktia Zyrtare</span>
+
         </div>
+
         <h1 class="text-6xl font-light tracking-tighter leading-none">RAMAZANI <br><span class="font-black text-amber-500 neon-gold italic">2026</span></h1>
+
     </header>
 
+
+
     <main class="w-full max-w-md px-6 mt-12 space-y-8 pb-20">
+
+        
+
         <section class="vaktia-glass rounded-[3rem] p-10 text-center relative overflow-hidden group">
+
             <div class="absolute top-0 left-0 w-full h-[1px] shkelqimi"></div>
+
             <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-8">Deri në fillimin e muajit të shenjtë</p>
+
             <div id="timer" class="flex justify-between items-center px-2">
+
                 <div class="flex flex-col"><span id="days" class="text-4xl font-bold tracking-tighter">--</span><span class="text-[9px] opacity-40 uppercase font-bold mt-1">Ditë</span></div>
+
                 <div class="h-10 w-[1px] bg-white/10"></div>
+
                 <div class="flex flex-col"><span id="hours" class="text-4xl font-bold tracking-tighter">--</span><span class="text-[9px] opacity-40 uppercase font-bold mt-1">Orë</span></div>
+
                 <div class="h-10 w-[1px] bg-white/10"></div>
+
                 <div class="flex flex-col"><span id="minutes" class="text-4xl font-bold tracking-tighter">--</span><span class="text-[9px] opacity-40 uppercase font-bold mt-1">Min</span></div>
+
                 <div class="h-10 w-[1px] bg-white/10"></div>
+
                 <div class="flex flex-col"><span id="seconds" class="text-4xl font-bold text-amber-500 tracking-tighter">--</span><span class="text-[9px] opacity-40 uppercase font-bold mt-1">Sek</span></div>
+
             </div>
+
         </section>
+
+
 
         <section class="animate__animated animate__fadeInUp" style="animation-delay: 0.3s">
+
             <div id="loc-box" class="vaktia-glass rounded-[2.5rem] p-8 text-center transition-all duration-700">
+
                 <button id="activate-btn" onclick="getUserLocation()" class="group bg-amber-500 text-black px-8 py-5 rounded-[2rem] font-black uppercase tracking-widest hover:shadow-[0_20px_40px_rgba(251,191,36,0.2)] transition-all flex items-center justify-center mx-auto active:scale-95">
+
                     <svg class="w-5 h-5 mr-3 group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+
                     Përcakto Vendndodhjen
+
                 </button>
+
+                
+
                 <div id="times-display" class="hidden">
+
                     <p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Vendi i Detektuar</p>
+
                     <h3 id="detected-city" class="text-3xl font-bold text-white mb-8 tracking-tighter italic">Pritni...</h3>
+
+                    
+
                     <div class="grid grid-cols-2 gap-4">
+
                         <div class="bg-white/[0.03] p-6 rounded-[2.2rem] border-t border-white/5">
+
                             <p class="text-[10px] text-gray-500 uppercase font-bold mb-2 tracking-widest">Imsaku</p>
+
                             <p id="imsaku-val" class="text-3xl font-bold font-mono tracking-tighter">--:--</p>
+
                         </div>
+
                         <div class="bg-amber-500/[0.05] p-6 rounded-[2.2rem] border-t border-amber-500/10">
+
                             <p class="text-[10px] text-amber-500 uppercase font-bold mb-2 tracking-widest">Iftari</p>
+
                             <p id="iftari-val" class="text-3xl font-bold font-mono tracking-tighter text-amber-500">--:--</p>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </section>
 
-        <section class="animate__animated animate__fadeInUp" style="animation-delay: 0.5s">
-            <button onclick="openQuranModal()" class="w-full vaktia-glass rounded-[2.5rem] p-5 border border-white/5 flex items-center justify-between group active:scale-95 transition-all">
-                <div class="flex items-center gap-4">
-                    <div class="h-12 w-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                    </div>
-                    <div class="text-left">
-                        <p class="text-[10px] text-amber-500 font-bold uppercase tracking-[0.2em]">Libri i Shenjtë</p>
-                        <p class="text-sm text-white font-medium">Lexo Kuranin</p>
-                    </div>
-                </div>
-                <svg class="w-5 h-5 text-gray-500 group-hover:text-amber-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </button>
-        </section>
+
 
         <section class="grid grid-cols-2 gap-4 animate__animated animate__fadeInUp" style="animation-delay: 0.6s">
+
             <div class="vaktia-glass p-6 rounded-[2rem] text-center border-l-2 border-blue-500/30">
+
                 <p class="text-[9px] text-gray-500 uppercase font-bold mb-1">Sezona 2026</p>
+
                 <p class="font-bold text-blue-400 tracking-tight">Dimër / Pranverë</p>
+
             </div>
+
             <div class="vaktia-glass p-6 rounded-[2rem] text-center border-l-2 border-emerald-500/30">
+
                 <p class="text-[9px] text-gray-500 uppercase font-bold mb-1">Kalendari Hixhri</p>
+
                 <p class="font-bold tracking-tight">1447 h.</p>
+
             </div>
+
         </section>
+
+
+
     </main>
 
-    <div id="quran-modal" class="fixed inset-0 z-[100] hidden flex items-end sm:items-center justify-center p-0 sm:p-6">
-        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeQuranModal()"></div>
-        <div class="relative w-full max-w-2xl bg-[#0a0a0a] h-[90vh] sm:h-[80vh] rounded-t-[2.5rem] sm:rounded-[2.5rem] border-t sm:border border-white/10 overflow-hidden flex flex-col animate__animated animate__slideInUp animate__faster">
-            <div class="p-6 border-b border-white/5 bg-white/5 flex justify-between items-center">
-                <div>
-                    <h3 class="text-white font-bold tracking-[0.2em] uppercase text-xs">Kurani i Shenjtë</h3>
-                    <p class="text-[9px] text-amber-500 uppercase mt-1 tracking-widest" id="surah-title">Zgjidhni Suren</p>
-                </div>
-                <button onclick="closeQuranModal()" class="h-10 w-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            <div class="p-4 border-b border-white/5 flex gap-3 overflow-x-auto no-scrollbar bg-black/20">
-                <button onclick="loadSurah(2, 'El-Bekare')" class="flex-none px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[10px] font-bold uppercase">El-Bekare</button>
-                <button onclick="loadSurah(97, 'El-Kadr')" class="flex-none px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-bold uppercase">El-Kadr</button>
-                <button onclick="loadSurah(36, 'Jasin')" class="flex-none px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-gray-400 text-[10px] font-bold uppercase">Jasin</button>
-            </div>
-            <div id="surah-content" class="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar scroll-smooth">
-                <div class="text-center py-20">
-                    <p class="text-gray-500 text-xs italic uppercase tracking-widest">Zgjidhni një sure për të filluar leximin...</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <script>
-        let iftariTime = "";
+<script>
+    // 1. LOGJIKA E MENU-SË
+    function toggleMenu() {
+        const menu = document.getElementById('burger-menu');
+        const btn = document.getElementById('menu-btn');
+        menu.classList.toggle('active');
+        btn.classList.toggle('active-btn');
+        document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : 'auto';
+    }
 
-        function toggleMenu() {
-            const menu = document.getElementById('burger-menu');
-            const btn = document.getElementById('menu-btn');
-            menu.classList.toggle('active');
-            btn.classList.toggle('active-btn');
-            document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : 'auto';
-        }
+    // Variabël globale për të ruajtur kohën e Iftarit për njoftimet
+    let globalIftariTime = ""; 
 
-        function openQuranModal() { document.getElementById('quran-modal').classList.remove('hidden'); }
-        function closeQuranModal() { document.getElementById('quran-modal').classList.add('hidden'); }
+    // 2. LOGJIKA E LOKACIONIT (GPS Real)
+    async function getUserLocation() {
+        const btn = document.getElementById('activate-btn');
+        const display = document.getElementById('times-display');
+        const cityLabel = document.getElementById('detected-city');
+        
+        btn.innerHTML = "Duke verifikuar...";
+        
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(async (pos) => {
+                const { latitude, longitude } = pos.coords;
+                try {
+                    // Marrim qytetin
+                    const geo = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
+                    const geoData = await geo.json();
+                    const city = geoData.address.city || geoData.address.town || geoData.address.village || "Kosovë";
 
-        async function getUserLocation() {
-            const btn = document.getElementById('activate-btn');
-            const display = document.getElementById('times-display');
-            const cityLabel = document.getElementById('detected-city');
-            btn.innerHTML = "Duke verifikuar...";
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(async (pos) => {
-                    const { latitude, longitude } = pos.coords;
-                    try {
-                        const pReq = await fetch(`https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=13`);
-                        const pData = await pReq.json();
-                        iftariTime = pData.data.timings.Maghrib;
+                    // Marrim kohët (Metoda 13 = BIK Kosovë)
+                    const pReq = await fetch(`https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=13`);
+                    const pData = await pReq.json();
+
+                    // Ruajmë kohën e iftarit globalisht për njoftimin
+                    globalIftariTime = pData.data.timings.Maghrib;
+
+                    btn.classList.add('animate__animated', 'animate__fadeOutDown');
+                    setTimeout(() => {
                         btn.classList.add('hidden');
                         display.classList.remove('hidden');
-                        cityLabel.innerText = "LOKACIONI YT";
+                        display.classList.add('animate__animated', 'animate__fadeInUp');
+                        cityLabel.innerText = city.toUpperCase();
                         document.getElementById('imsaku-val').innerText = pData.data.timings.Fajr;
                         document.getElementById('iftari-val').innerText = pData.data.timings.Maghrib;
-                    } catch (e) { btn.innerHTML = "Gabim në API"; }
-                }, () => btn.innerHTML = "Aktivizo GPS");
+                    }, 500);
+                } catch (e) { btn.innerHTML = "Gabim në API"; }
+            }, () => btn.innerHTML = "Aktivizo GPS");
+        }
+    }
+
+    // 3. LOGJIKA E COUNTDOWN-IT (19 Shkurt 2026)
+    const target = new Date("February 19, 2026 04:49:00").getTime();
+    setInterval(() => {
+        const diff = target - new Date().getTime();
+        if (diff < 0) return;
+        document.getElementById('days').innerText = Math.floor(diff / 86400000);
+        document.getElementById('hours').innerText = Math.floor((diff % 86400000) / 3600000);
+        document.getElementById('minutes').innerText = Math.floor((diff % 3600000) / 60000);
+        document.getElementById('seconds').innerText = Math.floor((diff % 60000) / 1000);
+    }, 1000);
+
+    // 4. SERVICE WORKER DHE NJOFTIMET
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').then(reg => {
+                console.log('Service Worker u regjistrua!');
+                
+                if (Notification.permission === 'default') {
+                    setTimeout(() => {
+                        Notification.requestPermission().then(perm => {
+                            if (perm === 'granted') console.log('Njoftimet u lejuan!');
+                        });
+                    }, 3000);
+                }
+            });
+        });
+    }
+
+    // 5. KONTROLLI I IFTARIT (Çdo 60 sekonda)
+    setInterval(() => {
+        if (!globalIftariTime) return; // Mos bëj asgjë nëse s'kemi të dhëna lokacioni
+
+        const tani = new Date();
+        const oraAktuale = tani.getHours().toString().padStart(2, '0') + ":" + 
+                           tani.getMinutes().toString().padStart(2, '0');
+        
+        if (oraAktuale === globalIftariTime) {
+            if (Notification.permission === 'granted') {
+                navigator.serviceWorker.ready.then(registration => {
+                    registration.showNotification("Koha e Iftarit!", {
+                        body: "Allahu ju pranoftë agjërimin. Mund të hapni iftarin.",
+                        icon: "logo.svg",
+                        vibrate: [200, 100, 200]
+                    });
+                });
             }
         }
+    }, 60000);
+</script>
 
-        // AUTO-LOAD NGA SETTINGS
-        window.onload = async () => {
-            const saved = JSON.parse(localStorage.getItem('vaktiaSettings'));
-            if (saved && saved.city) {
-                const btn = document.getElementById('activate-btn');
-                btn.innerHTML = "Duke ngarkuar " + saved.city + "...";
-                try {
-                    const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${saved.city}&country=Kosovo&method=13`);
-                    const data = await res.json();
-                    iftariTime = data.data.timings.Maghrib;
-                    btn.classList.add('hidden');
-                    document.getElementById('times-display').classList.remove('hidden');
-                    document.getElementById('detected-city').innerText = saved.city.toUpperCase();
-                    document.getElementById('imsaku-val').innerText = data.data.timings.Fajr;
-                    document.getElementById('iftari-val').innerText = data.data.timings.Maghrib;
-                } catch(e) {}
-            }
-        };
-
-        const target = new Date("February 18, 2026 04:49:00").getTime();
-        setInterval(() => {
-            const diff = target - new Date().getTime();
-            if (diff < 0) return;
-            document.getElementById('days').innerText = Math.floor(diff / 86400000);
-            document.getElementById('hours').innerText = Math.floor((diff % 86400000) / 3600000);
-            document.getElementById('minutes').innerText = Math.floor((diff % 3600000) / 60000);
-            document.getElementById('seconds').innerText = Math.floor((diff % 60000) / 1000);
-        }, 1000);
-
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js');
-        }
-
-        setInterval(() => {
-            if (!iftariTime) return;
-            const tani = new Date();
-            const ora = tani.getHours().toString().padStart(2, '0') + ":" + tani.getMinutes().toString().padStart(2, '0');
-            if (ora === iftariTime && Notification.permission === 'granted') {
-                new Notification("Koha e Iftarit!");
-            }
-        }, 60000);
-    </script>
+    
 </body>
+
 </html>
