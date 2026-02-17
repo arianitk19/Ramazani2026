@@ -108,19 +108,57 @@
     </main>
 
     <script>
-        function toggleMenu() {
-            document.getElementById('burger-menu').classList.toggle('active');
-            document.getElementById('menu-btn').classList.toggle('active-btn');
-        }
+    function toggleMenu() {
+        document.getElementById('burger-menu').classList.toggle('active');
+        document.getElementById('menu-btn').classList.toggle('active-btn');
+    }
 
-        function saveSettings() {
-            const city = document.getElementById('city-select').value;
-            // Këtu kodi do të ruante të dhënat në LocalStorage në një projekt real
-            alert("Ndryshimet për " + city.toUpperCase() + " u ruajtën me sukses!");
+    // Funksioni që i ruan të dhënat vërtet
+    function saveSettings() {
+        const cityValue = document.getElementById('city-select').value;
+        const iftarNotif = document.getElementById('notif-iftar').checked;
+        const syfyrNotif = document.getElementById('notif-syfyr').checked;
+
+        const settings = {
+            city: cityValue,
+            notifications: {
+                iftar: iftarNotif,
+                syfyr: syfyrNotif
+            },
+            updatedAt: new Date().getTime()
+        };
+
+        // Ruatja në LocalStorage
+        localStorage.setItem('vaktiaSettings', JSON.stringify(settings));
+
+        // Efekti vizual i suksesit
+        const btn = event.target;
+        const originalText = btn.innerText;
+        btn.innerText = "U RUAJ UA ME SUKSES! ✓";
+        btn.style.backgroundColor = "#22c55e"; // Ngjyrë e gjelbër
+
+        setTimeout(() => {
+            btn.innerText = originalText;
+            btn.style.backgroundColor = ""; // Kthehet te ari
+            // Opsionale: e dërgon përdoruesin te kreu pas ruajtjes
+            // window.location.href = "index.html";
+        }, 2000);
+    }
+
+    // Load settings when page opens (për të mbajtur dropdown-in te qyteti i ruajtur)
+    window.onload = () => {
+        const saved = JSON.parse(localStorage.getItem('vaktiaSettings'));
+        if (saved) {
+            document.getElementById('city-select').value = saved.city;
+            document.getElementById('notif-iftar').checked = saved.notifications.iftar;
+            document.getElementById('notif-syfyr').checked = saved.notifications.syfyr;
         }
-    </script>
+    };
+</script>
+  
 </body>
 </html>
+
 
 
 
