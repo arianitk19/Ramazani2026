@@ -471,16 +471,40 @@
         }
     });
 
+
     // 3. LOGJIKA E COUNTDOWN-IT (19 Shkurt 2026)
-    const target = new Date("February 19, 2026 04:49:00").getTime();
-    setInterval(() => {
-        const diff = target - new Date().getTime();
-        if (diff < 0) return;
-        document.getElementById('days').innerText = Math.floor(diff / 86400000);
-        document.getElementById('hours').innerText = Math.floor((diff % 86400000) / 3600000);
-        document.getElementById('minutes').innerText = Math.floor((diff % 3600000) / 60000);
-        document.getElementById('seconds').innerText = Math.floor((diff % 60000) / 1000);
-    }, 1000);
+const target = new Date("February 19, 2026 04:49:00").getTime();
+
+const countdownTimer = setInterval(() => {
+    const tani = new Date().getTime();
+    const diff = target - tani;
+
+    // KJO PJESË E HEQ COUNTDOWN-IN AUTOMATIKISHT
+    if (diff <= 0) {
+        clearInterval(countdownTimer); // Ndalon llogaritjen
+        
+        // Gjejmë seksionin e timer-it (shkojmë te prindi i parë 'section')
+        const timerSection = document.getElementById('timer').closest('section');
+        
+        if (timerSection) {
+            // Shtojmë një animacion daljeje
+            timerSection.classList.add('animate__animated', 'animate__zoomOut', 'opacity-0');
+            
+            // Pas 1 sekonde e heqim fare nga kodi që të mos zërë vend
+            setTimeout(() => {
+                timerSection.remove();
+            }, 1000);
+        }
+        return;
+    }
+
+    // Llogaritja e kohës (Pjesa jote ekzistuese)
+    document.getElementById('days').innerText = Math.floor(diff / 86400000);
+    document.getElementById('hours').innerText = Math.floor((diff % 86400000) / 3600000);
+    document.getElementById('minutes').innerText = Math.floor((diff % 3600000) / 60000);
+    document.getElementById('seconds').innerText = Math.floor((diff % 60000) / 1000);
+}, 1000);
+    
 
     // 4. SERVICE WORKER DHE NJOFTIMET
     if ('serviceWorker' in navigator) {
@@ -670,6 +694,7 @@ function closeInfoModal() {
 </body>
 
 </html>
+
 
 
 
