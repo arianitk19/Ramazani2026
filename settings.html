@@ -53,15 +53,16 @@
             <h2 class="text-[10px] font-bold text-gray-500 uppercase tracking-[0.4em] mb-4 ml-2">Lokacioni Manual</h2>
             <div class="vaktia-glass rounded-[2rem] p-6 space-y-4">
                 <p class="text-xs text-gray-400">Nëse nuk dëshironi te lejoni vendndodhjen aktuale tuaj, zgjedhni qytetin tuaj:</p>
-                <select id="city-select" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-amber-500 outline-none appearance-none transition-all">
-                    <option value="prishtinë">Prishtinë</option>
-                    <option value="mitrovica">Mitrovicë</option>
-                    <option value="pejë">Pejë</option>
-                    <option value="prizren">Prizren</option>
-                    <option value="ferizaj">Ferizaj</option>
-                    <option value="gjilan">Gjilan</option>
-                    <option value="gjilan">Gjakovë</option>
-                </select>
+               <select id="city-select" class="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:border-amber-500 outline-none appearance-none transition-all">
+    <option value="Prishtina">Prishtinë</option>
+    <option value="Mitrovica">Mitrovicë</option>
+    <option value="Peja">Pejë</option>
+    <option value="Prizren">Prizren</option>
+    <option value="Ferizaj">Ferizaj</option>
+    <option value="Gjilan">Gjilan</option>
+    <option value="Gjakova">Gjakovë</option>
+    <option value="Podujeva">Podujevë</option>
+</select>
                 <button onclick="saveSettings()" class="w-full bg-amber-500 text-black font-black py-4 rounded-xl uppercase text-xs tracking-widest hover:scale-[1.02] transition-transform">Ruaj Ndryshimet</button>
             </div>
         </section>
@@ -130,7 +131,18 @@
         const cityValue = document.getElementById('city-select').value;
         const iftarNotif = document.getElementById('notif-iftar').checked;
         const syfyrNotif = document.getElementById('notif-syfyr').checked;
-
+        
+// Shto këtë brenda funksionit saveSettings()
+if (iftarNotif || syfyrNotif) {
+    if (Notification.permission !== "granted") {
+        Notification.requestPermission().then(permission => {
+            if (permission !== "granted") {
+                alert("Duhet të lejoni njoftimet në browser që kjo të funksionojë!");
+            }
+        });
+    }
+}
+        
         const settings = {
             city: cityValue,
             notifications: {
@@ -146,7 +158,7 @@
         // Efekti vizual i suksesit
         const btn = event.target;
         const originalText = btn.innerText;
-        btn.innerText = "U RUAJ UA ME SUKSES! ✓";
+        btn.innerText = "Ndryshimet u ruajtën me sukses!";
         btn.style.backgroundColor = "#22c55e"; // Ngjyrë e gjelbër
 
         setTimeout(() => {
@@ -170,6 +182,7 @@
   
 </body>
 </html>
+
 
 
 
