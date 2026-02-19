@@ -120,29 +120,27 @@
 </section>
     </main>
 
-    <script>
+   <script>
     function toggleMenu() {
         document.getElementById('burger-menu').classList.toggle('active');
         document.getElementById('menu-btn').classList.toggle('active-btn');
     }
 
-    // Funksioni që i ruan të dhënat vërtet
-    function saveSettings() {
+    // Funksioni që ruan qytetin dhe njoftimet
+    async function saveSettings() {
         const cityValue = document.getElementById('city-select').value;
         const iftarNotif = document.getElementById('notif-iftar').checked;
         const syfyrNotif = document.getElementById('notif-syfyr').checked;
-        
-// Shto këtë brenda funksionit saveSettings()
-if (iftarNotif || syfyrNotif) {
-    if (Notification.permission !== "granted") {
-        Notification.requestPermission().then(permission => {
-            if (permission !== "granted") {
-                alert("Duhet të lejoni njoftimet në browser që kjo të funksionojë!");
+        const btn = event.target;
+
+        // Kërkimi i lejes për njoftime nëse janë aktive
+        if (iftarNotif || syfyrNotif) {
+            if (Notification.permission !== "granted") {
+                await Notification.requestPermission();
             }
-        });
-    }
-}
-        
+        }
+
+        // Krijimi i objektit të cilësimeve
         const settings = {
             city: cityValue,
             notifications: {
@@ -152,36 +150,39 @@ if (iftarNotif || syfyrNotif) {
             updatedAt: new Date().getTime()
         };
 
-        // Ruatja në LocalStorage
+        // Ruajtja në kujtesën e telefonit (LocalStorage)
         localStorage.setItem('vaktiaSettings', JSON.stringify(settings));
 
-        // Efekti vizual i suksesit
-        const btn = event.target;
+        // Efekti vizual i butonit
         const originalText = btn.innerText;
-        btn.innerText = "Ndryshimet u ruajtën me sukses!";
+        btn.innerText = "U RUAJT ME SUKSES!";
         btn.style.backgroundColor = "#22c55e"; // Ngjyrë e gjelbër
 
+        // Kthimi automatik te faqja kryesore pas 1 sekonde
         setTimeout(() => {
-            btn.innerText = originalText;
-            btn.style.backgroundColor = ""; // Kthehet te ari
-            // Opsionale: e dërgon përdoruesin te kreu pas ruajtjes
-            // window.location.href = "index.html";
-        }, 2000);
+            window.location.href = "index.html";
+        }, 1000);
     }
 
-    // Load settings when page opens (për të mbajtur dropdown-in te qyteti i ruajtur)
+    // Ngarkimi i cilësimeve kur hapet faqja (për të treguar çfarë ka qenë e ruajtur)
     window.onload = () => {
         const saved = JSON.parse(localStorage.getItem('vaktiaSettings'));
         if (saved) {
-            document.getElementById('city-select').value = saved.city;
-            document.getElementById('notif-iftar').checked = saved.notifications.iftar;
-            document.getElementById('notif-syfyr').checked = saved.notifications.syfyr;
+            if(document.getElementById('city-select')) 
+                document.getElementById('city-select').value = saved.city;
+            
+            if(document.getElementById('notif-iftar')) 
+                document.getElementById('notif-iftar').checked = saved.notifications.iftar;
+            
+            if(document.getElementById('notif-syfyr')) 
+                document.getElementById('notif-syfyr').checked = saved.notifications.syfyr;
         }
     };
 </script>
   
 </body>
 </html>
+
 
 
 
