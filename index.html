@@ -439,56 +439,25 @@
 
     let globalIftariTime = ""; 
 
-   // 2. LOGJIKA E QYTETEVE (E lidhur me Settings)
-    const shtesat = {
-        "Prishtina": 0, "Mitrovica": 0, "Podujeva": 0, "Ferizaj": 0,
-        "Peja": 2, "Gjakova": 2, "Prizren": 1, "Gjilan": -1
-    };
+  // 2. LOGJIKA E LOKACIONIT (Hibride: GPS për Emrin, BIK për Kohën)
+    async function getUserLocation() {
+        const btn = document.getElementById('activate-btn');
+        const display = document.getElementById('times-display');
+        const cityLabel = document.getElementById('detected-city');
+        
+        btn.innerHTML = "Duke verifikuar...";
+        
+        const sot = new Date().toISOString().split('T')[0];
+        const vaktiaSot = vaktiaZyrtare2026[sot];
 
-    function aplikoVaktineLokale() {
-        const btn = document.getElementById('activate-btn');
-        const display = document.getElementById('times-display');
-        const cityLabel = document.getElementById('detected-city');
-        
-        // 1. Merr qytetin e ruajtur nga LocalStorage (Settings)
-        const saved = JSON.parse(localStorage.getItem('vaktiaSettings')) || { city: "Prishtina" };
-        const qyteti = saved.city;
-        const minutaShtese = shtesat[qyteti] || 0;
-
-        // 2. Merr vaktinë zyrtare për datën e sotme
-        const sot = new Date().toISOString().split('T')[0];
-        const vaktiaSot = vaktiaZyrtare2026[sot];
-
-        if (vaktiaSot) {
-            // 3. Funksioni për llogaritjen e minutave (+/-)
-            const rregulloKohen = (koha, shtesa) => {
-                let [ore, min] = koha.split(':').map(Number);
-                let d = new Date();
-                d.setHours(ore, min + shtesa);
-                return d.getHours().toString().padStart(2, '0') + ":" + 
-                       d.getMinutes().toString().padStart(2, '0');
-            };
-
-            const imsakuFinal = rregulloKohen(vaktiaSot.imsaku, minutaShtese);
-            const iftariFinal = rregulloKohen(vaktiaSot.iftari, minutaShtese);
-
-            // 4. Shfaqja në UI
-            cityLabel.innerText = qyteti.toUpperCase();
-            document.getElementById('imsaku-val').innerText = imsakuFinal;
-            document.getElementById('iftari-val').innerText = iftariFinal;
-
-            // Ruajmë kohën për njoftimet
-            globalIftariTime = iftariFinal;
-
-            // Shfaqim vaktet dhe fshehim butonin
-            btn.classList.add('hidden');
-            display.classList.remove('hidden');
-        }
-    }
-
-    // Ekzekutohet automatikisht kur hapet faqja
-    window.addEventListener('load', aplikoVaktineLokale);
-
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(async (pos) => {
+                const { latitude, longitude } = pos.coords;
+                try {
+                    // Marrim vetëm emrin e qytetit nga GPS
+                    const geo = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
+                    const geoData = await geo.json();
+                    const city = geoData.address.city || geoData.address.town || "Kosovë";
 
     
 
@@ -726,6 +695,7 @@ function closeInfoModal() {
 </body>
 
 </html>
+
 
 
 
