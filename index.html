@@ -404,10 +404,42 @@
         document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : 'auto';
     }
 
-    // Variabël globale për të ruajtur kohën e Iftarit për njoftimet
+    // --- DATA STATIKE NGA FOTOJA E BIK 2026 ---
+    const vaktiaZyrtare2026 = {
+        "2026-02-19": { imsaku: "04:49", iftari: "17:21", dita: 1 },
+        "2026-02-20": { imsaku: "04:48", iftari: "17:22", dita: 2 },
+        "2026-02-21": { imsaku: "04:46", iftari: "17:23", dita: 3 },
+        "2026-02-22": { imsaku: "04:44", iftari: "17:25", dita: 4 },
+        "2026-02-23": { imsaku: "04:43", iftari: "17:26", dita: 5 },
+        "2026-02-24": { imsaku: "04:41", iftari: "17:27", dita: 6 },
+        "2026-02-25": { imsaku: "04:40", iftari: "17:28", dita: 7 },
+        "2026-02-26": { imsaku: "04:39", iftari: "17:29", dita: 8 },
+        "2026-02-27": { imsaku: "04:37", iftari: "17:30", dita: 9 },
+        "2026-02-28": { imsaku: "04:36", iftari: "17:31", dita: 10 },
+        "2026-03-01": { imsaku: "04:34", iftari: "17:33", dita: 11 },
+        "2026-03-02": { imsaku: "04:33", iftari: "17:34", dita: 12 },
+        "2026-03-03": { imsaku: "04:31", iftari: "17:36", dita: 13 },
+        "2026-03-04": { imsaku: "04:29", iftari: "17:37", dita: 14 },
+        "2026-03-05": { imsaku: "04:27", iftari: "17:38", dita: 15 },
+        "2026-03-06": { imsaku: "04:25", iftari: "17:39", dita: 16 },
+        "2026-03-07": { imsaku: "04:23", iftari: "17:40", dita: 17 },
+        "2026-03-08": { imsaku: "04:21", iftari: "17:42", dita: 18 },
+        "2026-03-09": { imsaku: "04:20", iftari: "17:43", dita: 19 },
+        "2026-03-10": { imsaku: "04:18", iftari: "17:44", dita: 20 },
+        "2026-03-11": { imsaku: "04:16", iftari: "17:45", dita: 21 },
+        "2026-03-12": { imsaku: "04:15", iftari: "17:47", dita: 22 },
+        "2026-03-13": { imsaku: "04:14", iftari: "17:48", dita: 23 },
+        "2026-03-14": { imsaku: "04:13", iftari: "17:49", dita: 24 },
+        "2026-03-15": { imsaku: "04:11", iftari: "17:50", dita: 25 },
+        "2026-03-16": { imsaku: "04:09", iftari: "17:51", dita: 26 },
+        "2026-03-17": { imsaku: "04:08", iftari: "17:52", dita: 27 },
+        "2026-03-18": { imsaku: "04:06", iftari: "17:53", dita: 28 },
+        "2026-03-19": { imsaku: "04:04", iftari: "17:55", dita: 29 }
+    };
+
     let globalIftariTime = ""; 
 
-    // 2. LOGJIKA E LOKACIONIT (GPS Real)
+    // 2. LOGJIKA E LOKACIONIT (Hibride: GPS për Emrin, BIK për Kohën)
     async function getUserLocation() {
         const btn = document.getElementById('activate-btn');
         const display = document.getElementById('times-display');
@@ -415,135 +447,153 @@
         
         btn.innerHTML = "Duke verifikuar...";
         
+        const sot = new Date().toISOString().split('T')[0];
+        const vaktiaSot = vaktiaZyrtare2026[sot];
+
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(async (pos) => {
                 const { latitude, longitude } = pos.coords;
                 try {
-                    // Marrim emrin e qytetit përmes koordinatave
+                    // Marrim vetëm emrin e qytetit nga GPS
                     const geo = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
                     const geoData = await geo.json();
-                    const city = geoData.address.city || geoData.address.town || geoData.address.village || "Kosovë";
+                    const city = geoData.address.city || geoData.address.town || "Kosovë";
 
-                    // Marrim kohët nga Aladhan API (Metoda 13 = BIK)
-                    const pReq = await fetch(`https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=13`);
-                    const pData = await pReq.json();
-
-                    // Ruajmë kohën e iftarit globalisht për njoftimin
-                    globalIftariTime = pData.data.timings.Maghrib;
-
-                    btn.classList.add('animate__animated', 'animate__fadeOutDown');
-                    setTimeout(() => {
-                        btn.classList.add('hidden');
-                        display.classList.remove('hidden');
-                        display.classList.add('animate__animated', 'animate__fadeInUp');
-                        cityLabel.innerText = city.toUpperCase();
-                        document.getElementById('imsaku-val').innerText = pData.data.timings.Fajr;
-                        document.getElementById('iftari-val').innerText = pData.data.timings.Maghrib;
-                    }, 500);
-                } catch (e) { 
-                    btn.innerHTML = "Gabim në API"; 
-                }
-            }, () => btn.innerHTML = "Aktivizo GPS");
+                    if (vaktiaSot) {
+                        // Përdorim kohën ZYRTARE të fotos
+                        globalIftariTime = vaktiaSot.iftari;
+                        
+                        btn.classList.add('animate__animated', 'animate__fadeOutDown');
+                        setTimeout(() => {
+                            btn.classList.add('hidden');
+                            display.classList.remove('hidden');
+                            display.classList.add('animate__animated', 'animate__fadeInUp');
+                            cityLabel.innerText = city.toUpperCase();
+                            document.getElementById('imsaku-val').innerText = vaktiaSot.imsaku;
+                            document.getElementById('iftari-val').innerText = vaktiaSot.iftari;
+                        }, 500);
+                    } else {
+                        // Nëse nuk është Ramazan, përdor API si rezervë
+                        const pReq = await fetch(`https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=13`);
+                        const pData = await pReq.json();
+                        updateUIWithAPI(pData, city);
+                    }
+                } catch (e) { btn.innerHTML = "Gabim në lidhje"; }
+            }, () => {
+                // Nëse GPS dështon, prapë shfaqim vaktinë e BIK për Kosovë
+                if(vaktiaSot) showStaticVaktia(vaktiaSot);
+                else btn.innerHTML = "Aktivizo GPS";
+            });
         }
     }
 
-    // --- NDRIDHJA ME SETTINGS (Auto-load) ---
+    function showStaticVaktia(vaktet) {
+        const btn = document.getElementById('activate-btn');
+        const display = document.getElementById('times-display');
+        globalIftariTime = vaktet.iftari;
+        btn.classList.add('hidden');
+        display.classList.remove('hidden');
+        document.getElementById('detected-city').innerText = "KOSOVË (ZYRTARE)";
+        document.getElementById('imsaku-val').innerText = vaktet.imsaku;
+        document.getElementById('iftari-val').innerText = vaktet.iftari;
+    }
+
+    // --- AUTO-LOAD LOAD ---
     window.addEventListener('load', async () => {
-        const savedSettings = JSON.parse(localStorage.getItem('vaktiaSettings'));
-        if (savedSettings && savedSettings.city) {
-            const btn = document.getElementById('activate-btn');
-            btn.innerHTML = `Ngarkimi: ${savedSettings.city}...`;
-            
-            try {
-                const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${savedSettings.city}&country=Kosovo&method=13`);
-                const data = await res.json();
-                
-                globalIftariTime = data.data.timings.Maghrib;
-                
-                btn.classList.add('hidden');
-                document.getElementById('times-display').classList.remove('hidden');
-                document.getElementById('detected-city').innerText = savedSettings.city.toUpperCase();
-                document.getElementById('imsaku-val').innerText = data.data.timings.Fajr;
-                document.getElementById('iftari-val').innerText = data.data.timings.Maghrib;
-            } catch(e) {
-                console.log("Gabim gjatë ngarkimit të qytetit të ruajtur.");
+        const sot = new Date().toISOString().split('T')[0];
+        const vaktiaSot = vaktiaZyrtare2026[sot];
+        
+        // Prioriteti 1: Nëse është Ramazan, shfaq direkt vaktinë e fotos
+        if (vaktiaSot) {
+            showStaticVaktia(vaktiaSot);
+        } 
+        // Prioriteti 2: Nëse ka qytet të ruajtur dhe s'është Ramazan
+        else {
+            const savedSettings = JSON.parse(localStorage.getItem('vaktiaSettings'));
+            if (savedSettings && savedSettings.city) {
+                // Logjika jote e vjetër e API...
             }
         }
     });
 
-
-    // 3. LOGJIKA E COUNTDOWN-IT (19 Shkurt 2026)
-const target = new Date("February 19, 2026 04:49:00").getTime();
-
-const countdownTimer = setInterval(() => {
-    const tani = new Date().getTime();
-    const diff = target - tani;
-
-    // KJO PJESË E HEQ COUNTDOWN-IN AUTOMATIKISHT
-    if (diff <= 0) {
-        clearInterval(countdownTimer); // Ndalon llogaritjen
-        
-        // Gjejmë seksionin e timer-it (shkojmë te prindi i parë 'section')
-        const timerSection = document.getElementById('timer').closest('section');
-        
-        if (timerSection) {
-            // Shtojmë një animacion daljeje
-            timerSection.classList.add('animate__animated', 'animate__zoomOut', 'opacity-0');
-            
-            // Pas 1 sekonde e heqim fare nga kodi që të mos zërë vend
-            setTimeout(() => {
-                timerSection.remove();
-            }, 1000);
+    // 3. LOGJIKA E COUNTDOWN-IT (Mbetet e njëjtë, është korrekte)
+    const target = new Date("February 19, 2026 04:49:00").getTime();
+    const countdownTimer = setInterval(() => {
+        const tani = new Date().getTime();
+        const diff = target - tani;
+        if (diff <= 0) {
+            clearInterval(countdownTimer);
+            const timerSection = document.getElementById('timer').closest('section');
+            if (timerSection) {
+                timerSection.classList.add('animate__animated', 'animate__zoomOut', 'opacity-0');
+                setTimeout(() => timerSection.remove(), 1000);
+            }
+            return;
         }
-        return;
-    }
+        document.getElementById('days').innerText = Math.floor(diff / 86400000);
+        document.getElementById('hours').innerText = Math.floor((diff % 86400000) / 3600000);
+        document.getElementById('minutes').innerText = Math.floor((diff % 3600000) / 60000);
+        document.getElementById('seconds').innerText = Math.floor((diff % 60000) / 1000);
+    }, 1000);
 
-    // Llogaritja e kohës (Pjesa jote ekzistuese)
-    document.getElementById('days').innerText = Math.floor(diff / 86400000);
-    document.getElementById('hours').innerText = Math.floor((diff % 86400000) / 3600000);
-    document.getElementById('minutes').innerText = Math.floor((diff % 3600000) / 60000);
-    document.getElementById('seconds').innerText = Math.floor((diff % 60000) / 1000);
-}, 1000);
-    
-
-    // 4. SERVICE WORKER DHE NJOFTIMET
+// 4. SERVICE WORKER DHE NJOFTIMET
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js').then(reg => {
                 console.log('Service Worker u regjistrua!');
-                
                 if (Notification.permission === 'default') {
                     setTimeout(() => {
-                        Notification.requestPermission().then(perm => {
-                            if (perm === 'granted') console.log('Njoftimet u lejuan!');
-                        });
+                        Notification.requestPermission();
                     }, 3000);
                 }
             });
         });
     }
 
-    // 5. KONTROLLI I IFTARIT (Çdo 60 sekonda)
+    // 5. KONTROLLI I NJOFTIMEVE (Imsaku & Iftari + Paralajmërimi)
     setInterval(() => {
-        if (!globalIftariTime) return; 
+        const sot = new Date().toISOString().split('T')[0];
+        const vaktet = vaktiaZyrtare2026[sot];
+        if (!vaktet) return;
 
         const tani = new Date();
         const oraAktuale = tani.getHours().toString().padStart(2, '0') + ":" + 
                            tani.getMinutes().toString().padStart(2, '0');
-        
-        if (oraAktuale === globalIftariTime) {
-            if (Notification.permission === 'granted') {
-                navigator.serviceWorker.ready.then(registration => {
-                    registration.showNotification("Koha e Iftarit!", {
-                        body: "Allahu ju pranoftë agjërimin. Mund të hapni iftarin.",
-                        icon: "logo.svg",
-                        vibrate: [200, 100, 200]
-                    });
-                });
-            }
+
+        // Njoftimi fiks në kohë
+        if (oraAktuale === vaktet.imsaku) {
+            sendNotification("Koha e Imsakut!", "Filloni agjërimin. Paçi një ditë të mbarë.");
         }
+        if (oraAktuale === vaktet.iftari) {
+            sendNotification("Koha e Iftarit!", "Allahu ju pranoftë agjërimin. Mund të hapni iftarin.");
+        }
+
+        // --- NJOFTIMI PARAPRAK (15 minuta para Iftarit) ---
+        const [h, m] = vaktet.iftari.split(':').map(Number);
+        const iftariDate = new Date();
+        iftariDate.setHours(h, m, 0);
+        
+        const paraIftarit = new Date(iftariDate.getTime() - 15 * 60000);
+        const oraPara = paraIftarit.getHours().toString().padStart(2, '0') + ":" + 
+                        paraIftarit.getMinutes().toString().padStart(2, '0');
+
+        if (oraAktuale === oraPara) {
+            sendNotification("Edhe 15 minuta!", "Bëhuni gati, koha e iftarit po afrohet.");
+        }
+
     }, 60000);
 
+    function sendNotification(titulli, mesazhi) {
+        if (Notification.permission === 'granted') {
+            navigator.serviceWorker.ready.then(reg => {
+                reg.showNotification(titulli, {
+                    body: mesazhi,
+                    icon: "logo.svg",
+                    vibrate: [200, 100, 200]
+                });
+            });
+        }
+    }
 
 // --- LOGJIKA E KURANIT RAMAZAN ---
 
@@ -616,55 +666,7 @@ async function loadSurah(id, name) {
     }
 }
 
-
-
-// --- LOGJIKA E SEKTORIT "MESO PER RAMAZANIN" ---
-
-const ramadanData = {
-    rregullat: {
-        title: "Rregullat e Agjërimit",
-        icon: '<svg class="w-8 h-8 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
-        bg: "bg-emerald-500/10",
-        text: `
-            <p>• <b>Nijeti:</b> Agjërimi fillon me vendosjen e qëllimit në zemër para agimit.</p>
-            <p>• <b>Çka e prish:</b> Ushqimi, pija dhe marrëdhëniet gjatë kohës së agjërimit.</p>
-            <p>• <b>Çka nuk e prish:</b> Larja e dhëmbëve (pa e gëlltitur ujin), përdorimi i parfumit, ose harresa gjatë ngrënies.</p>
-            <p>• <b>Kompensimi:</b> Personat e sëmurë ose udhëtarët mund t'i kompensojnë ditët pas Ramazanit.</p>
-        `
-    },
-    dobite: {
-        title: "Dobitë e Agjërimit",
-        icon: '<svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>',
-        bg: "bg-blue-500/10",
-        text: `
-            <p>• <b>Autofagjia:</b> Pas 12 orësh agjërimi, trupi fillon të pastrojë qelizat e dëmtuara.</p>
-            <p>• <b>Detoksifikimi:</b> Sistemi tretës pushon, duke i dhënë mundësi mëlçisë të nxjerrë helmet jashtë.</p>
-            <p>• <b>Përqendrimi:</b> Agjërimi rrit prodhimin e proteinave që mbrojnë trurin dhe rrisin fokusin.</p>
-            <p>• <b>Zemra:</b> Ndihmon në uljen e tensionit të gjakut dhe kolesterolit të keq.</p>
-        `
-    },
-    kadri: {
-        title: "Nata e Kadrit",
-        icon: '<svg class="w-8 h-8 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.382-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>',
-        bg: "bg-amber-500/10",
-        text: `
-            <p>• <b>Vlera:</b> Kjo natë është më e vlefshme se 1000 muaj (rreth 83 vite adhurim).</p>
-            <p>• <b>Kur është:</b> Kërkohet në netët teke të 10-ditëshit të fundit të Ramazanit.</p>
-            <p>• <b>Adhurimi:</b> Rekomandohet leximi i Kuranit, lutjet e sinqerta dhe falja e namazit të natës.</p>
-            <p>• <b>Duaja:</b> "O Allah, Ti je Falës, e dëshiron faljen, andaj më fal mua."</p>
-        `
-    },
-    sadakaja: {
-        title: "Zekati dhe Fitri",
-        icon: '<svg class="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>',
-        bg: "bg-purple-500/10",
-        text: `
-            <p>• <b>Zekat-ul-Fitr:</b> Eshtë obligim për çdo musliman që ka mundësi, për të pastruar agjërimin dhe ndihmuar të varfrit për festën e Bajramit.</p>
-            <p>• <b>Koha:</b> Duhet të jepet para faljes së namazit të Bajramit.</p>
-            <p>• <b>Zekati:</b> Shumë njerëz zgjedhin Ramazanin për të dhënë 2.5% të pasurisë së tyre vjetore për bamirësi.</p>
-        `
-    }
-};
+// --- LOGJIKA E SEKTORIT INFO ---
 
 function openInfoModal(key) {
     const data = ramadanData[key];
@@ -685,15 +687,13 @@ function closeInfoModal() {
     document.getElementById('info-modal').classList.add('hidden');
     document.body.style.overflow = 'auto';
 }
-
-
-    
     
 </script>
     
 </body>
 
 </html>
+
 
 
 
