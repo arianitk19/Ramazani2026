@@ -778,7 +778,7 @@ updateNotifUI();
 function updateMinimalClock() {
     const tani = new Date();
     
-    // Ora dhe Sekondat
+    // 1. Ora dhe Sekondat
     const h = String(tani.getHours()).padStart(2, '0');
     const m = String(tani.getMinutes()).padStart(2, '0');
     const s = String(tani.getSeconds()).padStart(2, '0');
@@ -786,25 +786,32 @@ function updateMinimalClock() {
     document.getElementById('local-clock').innerText = `${h}:${m}`;
     document.getElementById('seconds-counter').innerText = s;
 
-    // Data dhe Dita
+    // 2. Data dhe Dita
     const ditet = ["E Diel", "E Hënë", "E Martë", "E Mërkurë", "E Enjte", "E Premte", "E Shtunë"];
     const muajt = ["Janar", "Shkurt", "Mars", "Prill", "Maj", "Qershor", "Korrik", "Gusht", "Shtator", "Tetor", "Nëntor", "Dhjetor"];
     
     document.getElementById('current-day').innerText = ditet[tani.getDay()];
     document.getElementById('current-date').innerText = `${tani.getDate()} ${muajt[tani.getMonth()]}`;
 
-    // Dita e Ramazanit nga CONST
+    // 3. Marrja e të dhënave nga CONST (Pjesa kryesore)
     const sotKey = `${tani.getFullYear()}-${String(tani.getMonth() + 1).padStart(2, '0')}-${String(tani.getDate()).padStart(2, '0')}`;
     const vaktetSot = vaktiaZyrtare2026[sotKey];
     
     if (vaktetSot) {
+        // KËTU bëhet lidhja me HTML-in tënd
         document.getElementById('ramadan-day-text').innerText = `Dita ${vaktetSot.dita} e Ramazanit`;
+        document.getElementById('imsaku-val').innerText = vaktetSot.imsaku;
+        document.getElementById('iftari-val').innerText = vaktetSot.iftari;
+    } else {
+        // Në rast se nuk është ditë Ramazani
+        document.getElementById('imsaku-val').innerText = "--:--";
+        document.getElementById('iftari-val').innerText = "--:--";
     }
 }
 
+// Ekzekutimi
 setInterval(updateMinimalClock, 1000);
 window.addEventListener('load', updateMinimalClock);
-
 
     
 
@@ -813,6 +820,7 @@ window.addEventListener('load', updateMinimalClock);
 </body>
 
 </html>
+
 
 
 
