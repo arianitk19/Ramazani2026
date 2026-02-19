@@ -152,6 +152,19 @@
 
 
 
+
+
+<div class="text-center mb-10 animate__animated animate__fadeIn">
+    <div id="local-clock" class="text-6xl font-black tracking-tighter text-white mb-2 italic">00:00:00</div>
+    <div id="countdown-text" class="text-[10px] font-bold text-amber-500 uppercase tracking-[0.5em] opacity-80">Duke kalkuluar...</div>
+
+    <div class="relative w-full h-[6px] bg-white/5 rounded-full mt-8 overflow-hidden border border-white/5">
+        <div id="progress-bar" class="absolute top-0 left-0 h-full bg-gradient-to-r from-amber-600 to-amber-400 transition-all duration-1000 ease-linear shadow-[0_0_15px_rgba(251,191,36,0.4)]" style="width: 0%"></div>
+    </div>
+</div>
+
+    
+
     <main class="w-full max-w-md px-6 mt-12 space-y-8 pb-20">
 
         
@@ -789,6 +802,57 @@ updateNotifUI();
 
 
 
+    function updateDynamicUI() {
+    const tani = new Date();
+    
+    // 1. Përditëso Orën Lokale
+    const oraString = tani.getHours().toString().padStart(2, '0') + ":" + 
+                     tani.getMinutes().toString().padStart(2, '0') + ":" + 
+                     tani.getSeconds().toString().padStart(2, '0');
+    document.getElementById('local-clock').innerText = oraString;
+
+    // 2. Kalkulimi i Progresit dhe Countdown-it
+    const sot = tani.toISOString().split('T')[0];
+    const vaktet = vaktiaZyrtare2026[sot];
+
+    if (vaktet && globalIftariTime && globalImsakuTime) {
+        const [imsakH, imsakM] = globalImsakuTime.split(':').map(Number);
+        const [iftarH, iftarM] = globalIftariTime.split(':').map(Number);
+
+        const dataImsak = new Date(tani).setHours(imsakH, imsakM, 0);
+        const dataIftar = new Date(tani).setHours(iftarH, iftarM, 0);
+        const taniMs = tani.getTime();
+
+        let mbeturMs, totalMs, perqindja;
+
+        if (taniMs < dataImsak) {
+            // Jemi para Imsakut (Kohë Syfyri)
+            document.getElementById('countdown-text').innerText = "Edhe sa deri në Imsak";
+            totalMs = 0; // Mund të llogaritet nga iftari i djeshëm
+            perqindja = 0;
+        } else if (taniMs < dataIftar) {
+            // Jemi duke agjëruar (Kohë Iftari)
+            mbeturMs = dataIftar - taniMs;
+            totalMs = dataIftar - dataImsak;
+            perqindja = ((taniMs - dataImsak) / totalMs) * 100;
+            
+            const h = Math.floor(mbeturMs / 3600000);
+            const m = Math.floor((mbeturMs % 3600000) / 60000);
+            const s = Math.floor((mbeturMs % 60000) / 1000);
+            
+            document.getElementById('countdown-text').innerText = `Edhe ${h}nd ${m}min ${s}s deri në Iftar`;
+            document.getElementById('progress-bar').style.width = `${perqindja}%`;
+        } else {
+            // Pas Iftarit
+            document.getElementById('countdown-text').innerText = "Allahu ju pranoftë iftarin!";
+            document.getElementById('progress-bar').style.width = "100%";
+        }
+    }
+}
+
+// Nis ciklin e përditësimit çdo sekondë
+setInterval(updateDynamicUI, 1000);
+
     
     
 </script>
@@ -796,6 +860,7 @@ updateNotifUI();
 </body>
 
 </html>
+
 
 
 
