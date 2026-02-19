@@ -151,18 +151,6 @@
     </header>
 
 
-
-
-
-<div class="text-center mb-10 animate__animated animate__fadeIn">
-    <div id="local-clock" class="text-6xl font-black tracking-tighter text-white mb-2 italic">00:00:00</div>
-    <div id="countdown-text" class="text-[10px] font-bold text-amber-500 uppercase tracking-[0.5em] opacity-80">Duke kalkuluar...</div>
-
-    <div class="relative w-full h-[6px] bg-white/5 rounded-full mt-8 overflow-hidden border border-white/5">
-        <div id="progress-bar" class="absolute top-0 left-0 h-full bg-gradient-to-r from-amber-600 to-amber-400 transition-all duration-1000 ease-linear shadow-[0_0_15px_rgba(251,191,36,0.4)]" style="width: 0%"></div>
-    </div>
-</div>
-
     
 
     <main class="w-full max-w-md px-6 mt-12 space-y-8 pb-20">
@@ -248,6 +236,29 @@
 
 
 
+
+<div class="relative flex flex-col items-center justify-center py-10 animate__animated animate__fadeIn">
+    <div class="relative w-72 h-72 rounded-full flex items-center justify-center shadow-[0_0_50px_rgba(251,191,36,0.1)]">
+        
+        <svg class="absolute inset-0 w-full h-full -rotate-90">
+            <circle cx="144" cy="144" r="135" stroke="rgba(255,255,255,0.03)" stroke-width="4" fill="transparent" />
+            <circle id="progress-ring" cx="144" cy="144" r="135" stroke="#fbbf24" stroke-width="6" fill="transparent" 
+                stroke-dasharray="848" stroke-dashoffset="848" stroke-linecap="round"
+                class="transition-all duration-1000 ease-linear shadow-[0_0_20px_rgba(251,191,36,0.8)]" />
+        </svg>
+
+        <div class="text-center z-10">
+            <div id="local-clock" class="text-6xl font-black tracking-tighter text-white italic leading-none">00:00</div>
+            <div id="seconds-counter" class="text-xl font-light text-amber-500/60 mt-2 font-mono">00</div>
+            <div id="countdown-text" class="text-[9px] font-bold text-gray-400 uppercase tracking-[0.4em] mt-6 max-w-[150px] mx-auto leading-relaxed">
+                Duke u sinkronizuar...
+            </div>
+        </div>
+        
+        <div class="absolute -top-2 left-1/2 -translate-x-1/2 w-1 h-4 bg-amber-500 rounded-full shadow-[0_0_15px_#fbbf24]"></div>
+    </div>
+</div>
+        
 
 
 
@@ -802,57 +813,54 @@ updateNotifUI();
 
 
 
-    function updateDynamicUI() {
+   function updateRamadanClock() {
     const tani = new Date();
-    
-    // 1. Përditëso Orën Lokale
-    const oraString = tani.getHours().toString().padStart(2, '0') + ":" + 
-                     tani.getMinutes().toString().padStart(2, '0') + ":" + 
-                     tani.getSeconds().toString().padStart(2, '0');
-    document.getElementById('local-clock').innerText = oraString;
-
-    // 2. Kalkulimi i Progresit dhe Countdown-it
     const sot = tani.toISOString().split('T')[0];
-    const vaktet = vaktiaZyrtare2026[sot];
+    const vaktetSot = vaktiaZyrtare2026[sot];
 
-    if (vaktet && globalIftariTime && globalImsakuTime) {
+    // Përditëso Orën Kryesore
+    const h = tani.getHours().toString().padStart(2, '0');
+    const m = tani.getMinutes().toString().padStart(2, '0');
+    const s = tani.getSeconds().toString().padStart(2, '0');
+    
+    document.getElementById('local-clock').innerText = `${h}:${m}`;
+    document.getElementById('seconds-counter').innerText = s;
+
+    if (vaktetSot && globalImsakuTime && globalIftariTime) {
         const [imsakH, imsakM] = globalImsakuTime.split(':').map(Number);
         const [iftarH, iftarM] = globalIftariTime.split(':').map(Number);
 
-        const dataImsak = new Date(tani).setHours(imsakH, imsakM, 0);
-        const dataIftar = new Date(tani).setHours(iftarH, iftarM, 0);
+        const dImsak = new Date(tani).setHours(imsakH, imsakM, 0);
+        const dIftar = new Date(tani).setHours(iftarH, iftarM, 0);
         const taniMs = tani.getTime();
 
-        let mbeturMs, totalMs, perqindja;
+        const ring = document.getElementById('progress-ring');
+        const dashArray = 848; // Perimetri i rrethit (2 * PI * r)
 
-        if (taniMs < dataImsak) {
-            // Jemi para Imsakut (Kohë Syfyri)
-            document.getElementById('countdown-text').innerText = "Edhe sa deri në Imsak";
-            totalMs = 0; // Mund të llogaritet nga iftari i djeshëm
-            perqindja = 0;
-        } else if (taniMs < dataIftar) {
-            // Jemi duke agjëruar (Kohë Iftari)
-            mbeturMs = dataIftar - taniMs;
-            totalMs = dataIftar - dataImsak;
-            perqindja = ((taniMs - dataImsak) / totalMs) * 100;
+        if (taniMs >= dImsak && taniMs < dIftar) {
+            // KOHA E AGJËRIMIT
+            const mbeturMs = dIftar - taniMs;
+            const totalMs = dIftar - dImsak;
+            const kaluarMs = taniMs - dImsak;
             
-            const h = Math.floor(mbeturMs / 3600000);
-            const m = Math.floor((mbeturMs % 3600000) / 60000);
-            const s = Math.floor((mbeturMs % 60000) / 1000);
-            
-            document.getElementById('countdown-text').innerText = `Edhe ${h}nd ${m}min ${s}s deri në Iftar`;
-            document.getElementById('progress-bar').style.width = `${perqindja}%`;
+            // Llogaritja e rrethit (848 është 0%, 0 është 100%)
+            const perqindja = kaluarMs / totalMs;
+            const offset = dashArray - (perqindja * dashArray);
+            ring.style.strokeDashoffset = offset;
+
+            // Teksti i Countdown
+            const hMbetur = Math.floor(mbeturMs / 3600000);
+            const mMbetur = Math.floor((mbeturMs % 3600000) / 60000);
+            document.getElementById('countdown-text').innerText = `Edhe ${hMbetur}H e ${mMbetur}M deri në Iftar`;
         } else {
-            // Pas Iftarit
-            document.getElementById('countdown-text').innerText = "Allahu ju pranoftë iftarin!";
-            document.getElementById('progress-bar').style.width = "100%";
+            // JASHTË KOHËS SË AGJËRIMIT
+            ring.style.strokeDashoffset = dashArray;
+            document.getElementById('countdown-text').innerText = taniMs > dIftar ? "Allahu ju pranoftë!" : "Pranë Syfyrit";
         }
     }
 }
 
-// Nis ciklin e përditësimit çdo sekondë
-setInterval(updateDynamicUI, 1000);
-
+setInterval(updateRamadanClock, 1000);
     
     
 </script>
@@ -860,6 +868,7 @@ setInterval(updateDynamicUI, 1000);
 </body>
 
 </html>
+
 
 
 
