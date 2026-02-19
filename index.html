@@ -682,6 +682,50 @@ async function loadSurah(id, name) {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+function openInfoModal(key) {
+    const data = ramadanData[key];
+    if(!data) return; // Siguri nëse çelësi s'ekziston
+
+    const modal = document.getElementById('info-modal');
+    const iconContainer = document.getElementById('info-icon-container');
+    
+    // Plotësojmë përmbajtjen
+    document.getElementById('info-title').innerText = data.title;
+    document.getElementById('info-body').innerHTML = `<p>${data.text}</p>`;
+    
+    // Ndryshojmë ikonën dhe ngjyrën e saj
+    iconContainer.innerHTML = data.icon;
+    iconContainer.className = `h-16 w-16 rounded-[1.5rem] flex items-center justify-center mb-6 ${data.bg}`;
+    
+    // Shfaqim modalin
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden'; // Ndalon scroll-in e faqes poshtë modalit
+}
+
+function closeInfoModal() {
+    const modal = document.getElementById('info-modal');
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto'; // Kthen scroll-in
+}
+
+
+
+
+
+
+
+    
 // --- TË DHËNAT PËR MODALIN ---
 const ramadanData = {
     'rregullat': {
@@ -825,6 +869,7 @@ window.addEventListener('load', updateMinimalClock);
 </body>
 
 </html>
+
 
 
 
