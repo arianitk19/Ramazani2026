@@ -202,7 +202,7 @@
 
                 <div id="times-display" class="hidden">
 
-                    <p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Vendi i Detektuar</p>
+                    <p class="text-[10px] text-gray-500 uppercase font-bold mb-1">Vendi</p>
 
                     <h3 id="detected-city" class="text-3xl font-bold text-white mb-8 tracking-tighter italic">Pritni...</h3>
 
@@ -235,6 +235,45 @@
         </section>
 
 
+
+
+
+
+
+<div class="mt-10 px-2 animate__animated animate__fadeInUp" style="animation-delay: 0.6s">
+    <div class="flex gap-4">
+        
+        <button id="btn-iftar" onclick="toggleNotif('iftar')" class="relative overflow-hidden group flex-1 vaktia-glass rounded-[2rem] p-6 transition-all duration-500 border border-white/5 active:scale-95">
+            <div id="glow-iftar" class="absolute inset-0 bg-amber-500/0 transition-all duration-500"></div>
+            <div class="relative z-10 flex flex-col items-center gap-3">
+                <div id="ring-iftar" class="p-3 rounded-full bg-white/5 border border-white/10 transition-all duration-500">
+                    <span id="bell-iftar" class="block text-2xl filter grayscale opacity-40 transition-all duration-500">🔔</span>
+                </div>
+                <div class="text-center">
+                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 group-hover:text-white transition-colors">Iftari</p>
+                    <p id="status-iftar" class="text-[9px] font-bold text-amber-500/0 mt-1 uppercase tracking-widest transition-all">Aktiv</p>
+                </div>
+            </div>
+        </button>
+
+        <button id="btn-syfyr" onclick="toggleNotif('syfyr')" class="relative overflow-hidden group flex-1 vaktia-glass rounded-[2rem] p-6 transition-all duration-500 border border-white/5 active:scale-95">
+            <div id="glow-syfyr" class="absolute inset-0 bg-amber-500/0 transition-all duration-500"></div>
+            <div class="relative z-10 flex flex-col items-center gap-3">
+                <div id="ring-syfyr" class="p-3 rounded-full bg-white/5 border border-white/10 transition-all duration-500">
+                    <span id="bell-syfyr" class="block text-2xl filter grayscale opacity-40 transition-all duration-500">🔔</span>
+                </div>
+                <div class="text-center">
+                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 group-hover:text-white transition-colors">Syfyri</p>
+                    <p id="status-syfyr" class="text-[9px] font-bold text-amber-500/0 mt-1 uppercase tracking-widest transition-all">Aktiv</p>
+                </div>
+            </div>
+        </button>
+
+    </div>
+</div>
+
+
+        
 
 
         <section class="animate__animated animate__fadeInUp" style="animation-delay: 0.5s">
@@ -689,12 +728,77 @@ function closeInfoModal() {
     document.getElementById('info-modal').classList.add('hidden');
     document.body.style.overflow = 'auto';
 }
+
+
+
+
+
+
+
+let notificationSettings = JSON.parse(localStorage.getItem('vaktiaNotifs')) || { iftar: false, syfyr: false };
+
+async function toggleNotif(tipi) {
+    // Kërkesa për leje me stil
+    if (Notification.permission !== "granted") {
+        const permission = await Notification.requestPermission();
+        if (permission !== "granted") return;
+    }
+
+    // Ndryshimi i gjendjes
+    notificationSettings[tipi] = !notificationSettings[tipi];
+    localStorage.setItem('vaktiaNotifs', JSON.stringify(notificationSettings));
+    
+    // Luaj një efekt vibrimi të vogël nëse është në mobile
+    if (navigator.vibrate) navigator.vibrate(10);
+    
+    updateNotifUI();
+}
+
+function updateNotifUI() {
+    ['iftar', 'syfyr'].forEach(tipi => {
+        const active = notificationSettings[tipi];
+        const btn = document.getElementById(`btn-${tipi}`);
+        const glow = document.getElementById(`glow-${tipi}`);
+        const ring = document.getElementById(`ring-${tipi}`);
+        const bell = document.getElementById(`bell-${tipi}`);
+        const status = document.getElementById(`status-${tipi}`);
+
+        if (active) {
+            // Stil i Aktivizuar (Modern Amber)
+            btn.classList.add('border-amber-500/30');
+            glow.style.background = "radial-gradient(circle at center, rgba(251, 191, 36, 0.15) 0%, transparent 70%)";
+            ring.classList.add('border-amber-500/50', 'bg-amber-500/10');
+            bell.classList.remove('grayscale', 'opacity-40');
+            bell.classList.add('animate__animated', 'animate__tada'); // Zila tundet kur ndizet
+            status.style.opacity = "1";
+            status.style.transform = "translateY(0)";
+        } else {
+            // Stil i Fikur
+            btn.classList.remove('border-amber-500/30');
+            glow.style.background = "transparent";
+            ring.classList.remove('border-amber-500/50', 'bg-amber-500/10');
+            bell.classList.add('grayscale', 'opacity-40');
+            bell.classList.remove('animate__animated', 'animate__tada');
+            status.style.opacity = "0";
+            status.style.transform = "translateY(5px)";
+        }
+    });
+}
+
+// Thirre këtë në fund të script-it tënd që të rreshtohen butonat sapo hapet faqja
+updateNotifUI();
+
+
+
+
+    
     
 </script>
     
 </body>
 
 </html>
+
 
 
 
