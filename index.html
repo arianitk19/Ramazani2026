@@ -170,7 +170,7 @@
         <div class="h-3 w-[1px] bg-white/30"></div>
         <span id="current-date" class="text-[9px] font-bold uppercase tracking-widest text-white">19 Shkurt</span>
         <div class="h-3 w-[1px] bg-white/30"></div>
-        <span id="detected-city" class="text-[9px] font-bold uppercase tracking-widest text-white">Prishtinë</span>
+        <span id="detected-city" class="text-[9px] font-bold uppercase tracking-widest text-white">Kosovë</span>
     </div>
 
 </section>
@@ -682,28 +682,33 @@ async function loadSurah(id, name) {
     }
 }
 
-// --- LOGJIKA E SEKTORIT INFO ---
-
-function openInfoModal(key) {
-    const data = ramadanData[key];
-    const modal = document.getElementById('info-modal');
-    const iconContainer = document.getElementById('info-icon-container');
-    
-    document.getElementById('info-title').innerText = data.title;
-    document.getElementById('info-body').innerHTML = data.text;
-    
-    iconContainer.innerHTML = data.icon;
-    iconContainer.className = `h-16 w-16 rounded-[1.5rem] flex items-center justify-center mb-6 ${data.bg}`;
-    
-    modal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeInfoModal() {
-    document.getElementById('info-modal').classList.add('hidden');
-    document.body.style.overflow = 'auto';
-}
-
+// --- TË DHËNAT PËR MODALIN ---
+const ramadanData = {
+    'rregullat': {
+        title: 'Rregullat e Agjërimit',
+        text: '<p>Agjërimi prishët me ngrënie apo pirje të qëllimshme. Gjithashtu, përdorimi i barnave përmes rrugëve orale e prish atë.</p><p class="mt-2">Nuk e prishin agjërimin: ngrënia harrueshëm, përdorimi i parfumit apo misvakut.</p>',
+        icon: '<svg class="w-8 h-8 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>',
+        bg: 'bg-emerald-500/10'
+    },
+    'dobite': {
+        title: 'Dobitë e Shëndetit',
+        text: '<p>Agjërimi ndihmon në detoksifikimin e trupit dhe përmirëson tretjen.</p><p class="mt-2">Është një pushim i nevojshëm për organet vitale dhe ndihmon në qartësinë mendore.</p>',
+        icon: '<svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>',
+        bg: 'bg-blue-500/10'
+    },
+    'kadri': {
+        title: 'Nata e Kadrit',
+        text: '<p>Nata e Kadrit është më e vlefshme se një mijë muaj. Këshillohet shtimi i lutjeve dhe leximi i Kuranit gjatë kësaj nate.</p>',
+        icon: '<svg class="w-8 h-8 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.382-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>',
+        bg: 'bg-amber-500/10'
+    },
+    'sadakaja': {
+        title: 'Zekati & Fitri',
+        text: '<p>Zekati është pastrim i pasurisë, ndërsa Sadakaja e Fitrit jepet para namazit të Bajramit për të varfrit.</p>',
+        icon: '<svg class="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>',
+        bg: 'bg-purple-500/10'
+    }
+};
 
 
 
@@ -820,6 +825,7 @@ window.addEventListener('load', updateMinimalClock);
 </body>
 
 </html>
+
 
 
 
